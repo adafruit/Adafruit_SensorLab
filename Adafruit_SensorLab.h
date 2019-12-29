@@ -19,6 +19,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP280.h>
 #include <Adafruit_BME280.h>
+#include <Adafruit_ADXL343.h>
 
 class Adafruit_SensorLab {
  public:
@@ -28,10 +29,13 @@ class Adafruit_SensorLab {
   Adafruit_Sensor *getTemperatureSensor(void);
   Adafruit_Sensor *getPressureSensor(void);
   Adafruit_Sensor *getHumiditySensor(void);
+  Adafruit_Sensor *getAccelerometer(void);
+
   float calculateAltitude(float currentPressure_hPa,
 			  float originPressure_hPa=1013.25);
   bool detectBMP280(void);
   bool detectBME280(void);
+  bool detectADXL34X(void);
 
  private:
   bool scanI2C(uint8_t addr);
@@ -39,8 +43,11 @@ class Adafruit_SensorLab {
 
   Adafruit_BMP280 *_bmp280 = NULL;
   Adafruit_BME280 *_bme280 = NULL;
+  Adafruit_ADXL343 *_adxl34x = NULL;
+
   Adafruit_Sensor *pressure = NULL;
   Adafruit_Sensor *temperature = NULL;
   Adafruit_Sensor *humidity = NULL;
+  Adafruit_Sensor *accelerometer = NULL;
 };
 #endif

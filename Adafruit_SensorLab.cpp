@@ -13,7 +13,6 @@
 /**************************************************************************/
 
 #include <Adafruit_SensorLab.h>
-#include <Adafruit_BMP280.h>
 
 
 Adafruit_SensorLab::Adafruit_SensorLab(TwoWire *i2c) {
@@ -23,6 +22,30 @@ Adafruit_SensorLab::Adafruit_SensorLab(TwoWire *i2c) {
 void Adafruit_SensorLab::begin(uint32_t I2C_Frequency) {
   _i2c->begin();
   _i2c->setClock(I2C_Frequency);
+}
+
+
+
+bool Adafruit_SensorLab::detectADXL34X(void) {
+  bool addr1D = scanI2C(0x1D);
+  bool addr53 = scanI2C(0x53);
+
+  if (!addr1D && !addr53) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _adxl34x = new Adafruit_ADXL343(343);
+    
+  if ((addr1D && _adxl34x->begin(0x1D)) || 
+      (addr53 && _adxl34x->begin(0x53))) {
+    // yay found a ADXL34x
+    Serial.println(F("Found a ADXL34x accelerometer"));
+    accelerometer = _adxl34x;
+    return true;
+  }
+  
+  delete _adxl34x;
+  return false;
 }
 
 bool Adafruit_SensorLab::detectBMP280(void) {
@@ -70,6 +93,17 @@ bool Adafruit_SensorLab::detectBME280(void) {
   
   delete _bme280;
   return false;
+}
+
+Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
+  if (accelerometer) {
+    return accelerometer; // we already did this process
+  }
+  if (detectADXL34X()) {
+    return accelerometer;
+  }
+  // Nothing detected
+  return NULL;
 }
 
 Adafruit_Sensor *Adafruit_SensorLab::getPressureSensor(void) {

@@ -29,6 +29,7 @@ void setup() {
   Serial.println(F("Sensor Lab - Barometric Pressure to Height!"));
   lab.begin();
 
+  Serial.println("Looking for a pressure sensor");
   pressure = lab.getPressureSensor();
   if (! pressure) {
     Serial.println(F("Could not find a pressure sensor, check wiring!"));

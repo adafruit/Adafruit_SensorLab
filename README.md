@@ -9,3 +9,6 @@ plenty of flash storage :)
 ## Supported environmental sensors:
   * BMP280 - Temperature & Pressure
   * BME280 - Temperature, Humidity & Pressure
+
+## Supported motion sensors:
+  * ADXL343 & ADXL345 - 3-Axis accelerometers
