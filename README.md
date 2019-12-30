@@ -12,3 +12,4 @@ plenty of flash storage :)
 
 ## Supported motion sensors:
   * ADXL343 & ADXL345 - 3-Axis accelerometers
+  * LSM6DS33 - 6-DoF accelerometer/gyro + temperature

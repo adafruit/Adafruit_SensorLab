@@ -24,8 +24,6 @@ void Adafruit_SensorLab::begin(uint32_t I2C_Frequency) {
   _i2c->setClock(I2C_Frequency);
 }
 
-
-
 bool Adafruit_SensorLab::detectADXL34X(void) {
   bool addr1D = scanI2C(0x1D);
   bool addr53 = scanI2C(0x53);
@@ -48,6 +46,35 @@ bool Adafruit_SensorLab::detectADXL34X(void) {
   return false;
 }
 
+bool Adafruit_SensorLab::detectLSM6DS33(void) {
+  bool addr6A = scanI2C(0x6A);
+  bool addr6B = scanI2C(0x6B);
+
+  if (!addr6A && !addr6B) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lsm6ds33 = new Adafruit_LSM6DS33();
+    
+  if ((addr6A && _lsm6ds33->begin_I2C(0x6A)) || 
+      (addr6B && _lsm6ds33->begin_I2C(0x6B))) {
+    // yay found a LSM6DS33
+    Serial.println(F("Found a LSM6DS33 IMU"));
+
+    if (! accelerometer)
+      accelerometer = _lsm6ds33->getAccelerometerSensor();
+    if (! gyroscope)
+      gyroscope = _lsm6ds33->getGyroSensor();
+    if (! temperature) {
+      temperature = _lsm6ds33->getTemperatureSensor();
+    }
+    return true;
+  }
+  
+  delete _lsm6ds33;
+  return false;
+}
+
 bool Adafruit_SensorLab::detectBMP280(void) {
   bool addr77 = scanI2C(0x77);
   bool addr76 = scanI2C(0x76);
@@ -62,8 +89,10 @@ bool Adafruit_SensorLab::detectBMP280(void) {
       (addr76 && _bmp280->begin(0x76))) {
     // yay found a BMP280
     Serial.println(F("Found a BMP280 Pressure sensor"));
-    pressure = _bmp280->getPressureSensor();
-    temperature = _bmp280->getTemperatureSensor();
+    if (! pressure)
+      pressure = _bmp280->getPressureSensor();
+    if (! temperature)
+      temperature = _bmp280->getTemperatureSensor();
     return true;
   }
   
@@ -85,9 +114,12 @@ bool Adafruit_SensorLab::detectBME280(void) {
       (addr76 && _bme280->begin(0x76))) {
     // yay found a BME280
     Serial.println(F("Found a BME280 Pressure+Humidity sensor"));
-    pressure = _bme280->getPressureSensor();
-    humidity = _bme280->getHumiditySensor();
-    temperature = _bme280->getTemperatureSensor();
+    if (! pressure)
+      pressure = _bme280->getPressureSensor();
+    if (! humidity)
+      humidity = _bme280->getHumiditySensor();
+    if (! temperature)
+      temperature = _bme280->getTemperatureSensor();
     return true;
   }
   
@@ -99,7 +131,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   if (accelerometer) {
     return accelerometer; // we already did this process
   }
-  if (detectADXL34X()) {
+  if (detectADXL34X() || detectLSM6DS33()) {
     return accelerometer;
   }
   // Nothing detected

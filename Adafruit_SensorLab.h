@@ -20,6 +20,7 @@
 #include <Adafruit_BMP280.h>
 #include <Adafruit_BME280.h>
 #include <Adafruit_ADXL343.h>
+#include <Adafruit_LSM6DS33.h>
 
 class Adafruit_SensorLab {
  public:
@@ -36,6 +37,7 @@ class Adafruit_SensorLab {
   bool detectBMP280(void);
   bool detectBME280(void);
   bool detectADXL34X(void);
+  bool detectLSM6DS33(void);
 
  private:
   bool scanI2C(uint8_t addr);
@@ -44,10 +46,12 @@ class Adafruit_SensorLab {
   Adafruit_BMP280 *_bmp280 = NULL;
   Adafruit_BME280 *_bme280 = NULL;
   Adafruit_ADXL343 *_adxl34x = NULL;
+  Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
 
   Adafruit_Sensor *pressure = NULL;
   Adafruit_Sensor *temperature = NULL;
   Adafruit_Sensor *humidity = NULL;
   Adafruit_Sensor *accelerometer = NULL;
+  Adafruit_Sensor *gyroscope = NULL;
 };
 #endif
