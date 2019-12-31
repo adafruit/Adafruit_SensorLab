@@ -95,8 +95,8 @@ void loop() {
   arcada.display->setTextColor(ARCADA_WHITE);
   // Display pressure and height calculation
   arcada.display->printf("Initial: %0.2f hPa\n", initial_pressure);
-  arcada.display->printf("Current: %0.2f hPa\n", pressure_event.pressure);
-  arcada.display->printf("Height: %0.1f m\n", height);
+  arcada.display->printf("Current: %0.2f hPa\n\n", pressure_event.pressure);
+  arcada.display->printf("Height: %0.1f m\n\n", height);
   arcada.display->printf("Est. Alt.: %0.1f m\n", altitude);
 
   // If the A button is pressed, reset initial pressure reading
