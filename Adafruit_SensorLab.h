@@ -23,6 +23,8 @@
 #include <Adafruit_DPS310.h>
 #include <Adafruit_LSM6DS33.h>
 #include <Adafruit_LIS3MDL.h>
+#include <Adafruit_FXOS8700.h>
+#include <Adafruit_FXAS21002C.h>
 
 class Adafruit_SensorLab {
  public:
@@ -44,6 +46,8 @@ class Adafruit_SensorLab {
   bool detectDPS310(void);
   bool detectLSM6DS33(void);
   bool detectLIS3MDL(void);
+  bool detectFXOS8700(void);
+  bool detectFXAS21002(void);
 
   static float mapf(float x, float in_min, float in_max, float out_min, float out_max);
   static constexpr double DEGREES_PER_RADIAN = (180.0/3.141592653589793238463);
@@ -59,6 +63,8 @@ class Adafruit_SensorLab {
   Adafruit_DPS310 *_dps310 = NULL;
   Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
   Adafruit_LIS3MDL *_lis3mdl = NULL;
+  Adafruit_FXOS8700 *_fxos8700 = NULL;
+  Adafruit_FXAS21002C *_fxas21002 = NULL;
 
   Adafruit_Sensor *pressure = NULL;
   Adafruit_Sensor *temperature = NULL;

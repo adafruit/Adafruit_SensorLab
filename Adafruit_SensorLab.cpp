@@ -81,6 +81,62 @@ bool Adafruit_SensorLab::detectLSM6DS33(void) {
   return false;
 }
 
+
+bool Adafruit_SensorLab::detectFXOS8700(void) {
+  bool addr1C = scanI2C(0x1C);
+  bool addr1D = scanI2C(0x1D);
+  bool addr1E = scanI2C(0x1E);
+  bool addr1F = scanI2C(0x1F);
+
+  if (!addr1C && !addr1D && !addr1E && !addr1F) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B);
+    
+  if ((addr1C && _fxos8700->begin()) || 
+      (addr1D && _fxos8700->begin()) || 
+      (addr1E && _fxos8700->begin()) || 
+      (addr1F && _fxos8700->begin())) {
+    // yay found a FXOS8700
+    Serial.println(F("Found a FXOS8700 eCompass"));
+
+    if (! accelerometer)
+      accelerometer = _fxos8700->getAccelerometerSensor();
+    if (! magnetometer)
+      magnetometer = _fxos8700->getMagnetometerSensor();
+    return true;
+  }
+  
+  delete _fxos8700;
+  return false;
+}
+
+
+bool Adafruit_SensorLab::detectFXAS21002(void) {
+  bool addr20 = scanI2C(0x20);
+  bool addr21 = scanI2C(0x21);
+
+  if (!addr20 && !addr21) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _fxas21002 = new Adafruit_FXAS21002C(21002);
+    
+  if ((addr20 && _fxas21002->begin()) || 
+      (addr21 && _fxas21002->begin())) {
+    // yay found a FXAS21002C
+    Serial.println(F("Found a FXAS21002C gyro"));
+
+    if (! gyroscope)
+      gyroscope = _fxas21002;
+    return true;
+  }
+  
+  delete _fxas21002;
+  return false;
+}
+
 bool Adafruit_SensorLab::detectLIS3MDL(void) {
   bool addr1E = scanI2C(0x1E);
   bool addr1C = scanI2C(0x1C);
@@ -189,7 +245,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   if (accelerometer) {
     return accelerometer; // we already did this process
   }
-  if (detectADXL34X() || detectLSM6DS33()) {
+  if (detectADXL34X() || detectLSM6DS33() || detectFXOS8700()) {
     return accelerometer;
   }
   // Nothing detected
@@ -200,7 +256,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   if (magnetometer) {
     return magnetometer; // we already did this process
   }
-  if (detectLIS3MDL()) {
+  if (detectLIS3MDL() || detectFXOS8700()) {
     return magnetometer;
   }
   // Nothing detected
@@ -212,7 +268,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
   }
-  if (detectLSM6DS33()) {
+  if (detectLSM6DS33() || detectFXAS21002()) {
     return gyroscope;
   }
   // Nothing detected
