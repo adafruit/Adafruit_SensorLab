@@ -14,6 +14,11 @@
 
 #include <Adafruit_SensorLab.h>
 
+float Adafruit_SensorLab::mapf(float x, float in_min, float in_max, 
+			       float out_min, float out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 
 Adafruit_SensorLab::Adafruit_SensorLab(TwoWire *i2c) {
   _i2c = i2c;
@@ -22,6 +27,7 @@ Adafruit_SensorLab::Adafruit_SensorLab(TwoWire *i2c) {
 void Adafruit_SensorLab::begin(uint32_t I2C_Frequency) {
   _i2c->begin();
   _i2c->setClock(I2C_Frequency);
+  yield();
 }
 
 bool Adafruit_SensorLab::detectADXL34X(void) {
@@ -75,6 +81,30 @@ bool Adafruit_SensorLab::detectLSM6DS33(void) {
   return false;
 }
 
+bool Adafruit_SensorLab::detectLIS3MDL(void) {
+  bool addr1E = scanI2C(0x1E);
+  bool addr1C = scanI2C(0x1C);
+
+  if (!addr1C && !addr1E) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lis3mdl = new Adafruit_LIS3MDL();
+    
+  if ((addr1E && _lis3mdl->begin_I2C(0x1E)) || 
+      (addr1C && _lis3mdl->begin_I2C(0x1C))) {
+    // yay found a LIS3MDL
+    Serial.println(F("Found a LIS3MDL IMU"));
+
+    if (! magnetometer)
+      magnetometer = _lis3mdl;
+    return true;
+  }
+  
+  delete _lis3mdl;
+  return false;
+}
+
 bool Adafruit_SensorLab::detectBMP280(void) {
   bool addr77 = scanI2C(0x77);
   bool addr76 = scanI2C(0x76);
@@ -100,17 +130,45 @@ bool Adafruit_SensorLab::detectBMP280(void) {
   return false;
 }
 
+
+bool Adafruit_SensorLab::detectDPS310(void) {
+  bool addr77 = scanI2C(0x77);
+  bool addr76 = scanI2C(0x76);
+
+  Serial.println("Looking for DPS310");
+
+  if (!addr77 && !addr76) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  Adafruit_DPS310 *_dps310 = new Adafruit_DPS310();
+  if ((addr77 && _dps310->begin_I2C(0x77)) || 
+      (addr76 && _dps310->begin_I2C(0x76))) {
+    // yay found a DPS310
+    Serial.println(F("Found a DPS310 Pressure sensor"));
+    if (! pressure)
+      pressure = _dps310->getPressureSensor();
+    if (! temperature)
+      temperature = _dps310->getTemperatureSensor();
+    return true;
+  }
+  
+  delete _dps310;
+  return false;
+}
+
 bool Adafruit_SensorLab::detectBME280(void) {
   bool addr77 = scanI2C(0x77);
   bool addr76 = scanI2C(0x76);
-  
+  Serial.println("Looking for BME280");
+
   if (!addr77 && !addr76) {
     return false; // no I2C device that could possibly work found!
   }
 
   _bme280 = new Adafruit_BME280();
     
-  if ((addr77 && _bme280->begin(0x77)) || 
+  if ((addr77 && _bme280->begin()) || 
       (addr76 && _bme280->begin(0x76))) {
     // yay found a BME280
     Serial.println(F("Found a BME280 Pressure+Humidity sensor"));
@@ -138,11 +196,35 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   return NULL;
 }
 
+Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
+  if (magnetometer) {
+    return magnetometer; // we already did this process
+  }
+  if (detectLIS3MDL()) {
+    return magnetometer;
+  }
+  // Nothing detected
+  return NULL;
+}
+
+
+Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
+  if (gyroscope) {
+    return gyroscope; // we already did this process
+  }
+  if (detectLSM6DS33()) {
+    return gyroscope;
+  }
+  // Nothing detected
+  return NULL;
+}
+
+
 Adafruit_Sensor *Adafruit_SensorLab::getPressureSensor(void) {
   if (pressure) {
     return pressure; // we already did this process
   }
-  if (detectBMP280() || detectBME280()) {
+  if (detectBMP280() || detectBME280() || detectDPS310()) {
     return pressure;
   }
   // Nothing detected
@@ -153,7 +235,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getTemperatureSensor(void) {
   if (temperature) {
     return temperature; // we already did this process
   }
-  if (detectBMP280() || detectBME280()) {
+  if (detectBMP280() || detectBME280() || detectDPS310()) {
     return temperature;
   }
   // Nothing detected
@@ -184,7 +266,13 @@ float Adafruit_SensorLab::calculateAltitude(float currentPressure_hPa,
 }
 
 bool Adafruit_SensorLab::scanI2C(uint8_t addr) {
+  yield();
+
   // A basic scanner, see if it ACK's
   _i2c->beginTransmission(addr);
-  return (_i2c->endTransmission() == 0);
+  bool f = (_i2c->endTransmission() == 0);
+  if (f) {
+    Serial.print("Found addr 0x"); Serial.println(addr, HEX);
+  }
+  return f;
 }
