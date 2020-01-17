@@ -22,6 +22,7 @@
 #include <Adafruit_BME280.h>
 #include <Adafruit_DPS310.h>
 #include <Adafruit_LSM6DS33.h>
+#include <Adafruit_LSM6DSOX.h>
 #include <Adafruit_LIS3MDL.h>
 #include <Adafruit_FXOS8700.h>
 #include <Adafruit_FXAS21002C.h>
@@ -45,6 +46,7 @@ class Adafruit_SensorLab {
   bool detectBME280(void);
   bool detectDPS310(void);
   bool detectLSM6DS33(void);
+  bool detectLSM6DSOX(void);
   bool detectLIS3MDL(void);
   bool detectFXOS8700(void);
   bool detectFXAS21002(void);
@@ -62,6 +64,7 @@ class Adafruit_SensorLab {
   Adafruit_BME280 *_bme280 = NULL;
   Adafruit_DPS310 *_dps310 = NULL;
   Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
+  Adafruit_LSM6DSOX *_lsm6dsox = NULL;
   Adafruit_LIS3MDL *_lis3mdl = NULL;
   Adafruit_FXOS8700 *_fxos8700 = NULL;
   Adafruit_FXAS21002C *_fxas21002 = NULL;

@@ -82,6 +82,35 @@ bool Adafruit_SensorLab::detectLSM6DS33(void) {
 }
 
 
+bool Adafruit_SensorLab::detectLSM6DSOX(void) {
+  bool addr6A = scanI2C(0x6A);
+  bool addr6B = scanI2C(0x6B);
+
+  if (!addr6A && !addr6B) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lsm6dsox = new Adafruit_LSM6DSOX();
+    
+  if ((addr6A && _lsm6dsox->begin_I2C(0x6A)) || 
+      (addr6B && _lsm6dsox->begin_I2C(0x6B))) {
+    // yay found a LSM6DSOX
+    Serial.println(F("Found a LSM6DSOX IMU"));
+
+    if (! accelerometer)
+      accelerometer = _lsm6dsox->getAccelerometerSensor();
+    if (! gyroscope)
+      gyroscope = _lsm6dsox->getGyroSensor();
+    if (! temperature) {
+      temperature = _lsm6dsox->getTemperatureSensor();
+    }
+    return true;
+  }
+  
+  delete _lsm6dsox;
+  return false;
+}
+
 bool Adafruit_SensorLab::detectFXOS8700(void) {
   bool addr1C = scanI2C(0x1C);
   bool addr1D = scanI2C(0x1D);
@@ -245,7 +274,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   if (accelerometer) {
     return accelerometer; // we already did this process
   }
-  if (detectADXL34X() || detectLSM6DS33() || detectFXOS8700()) {
+  if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() || detectFXOS8700()) {
     return accelerometer;
   }
   // Nothing detected
@@ -268,7 +297,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
   }
-  if (detectLSM6DS33() || detectFXAS21002()) {
+  if (detectLSM6DS33() || detectLSM6DSOX() || detectFXAS21002()) {
     return gyroscope;
   }
   // Nothing detected
