@@ -21,10 +21,10 @@
 #include <Adafruit_DPS310.h>
 #include <Adafruit_FXAS21002C.h>
 #include <Adafruit_FXOS8700.h>
+#include <Adafruit_ISM330DHCT.h>
 #include <Adafruit_LIS3MDL.h>
 #include <Adafruit_LSM6DS33.h>
 #include <Adafruit_LSM6DSOX.h>
-#include <Adafruit_ISM330DHCT.h>
 #include <Adafruit_Sensor.h>
 #include <Arduino.h>
 

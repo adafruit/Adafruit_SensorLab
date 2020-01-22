@@ -135,7 +135,6 @@ bool Adafruit_SensorLab::detectISM330DHCT(void) {
   return false;
 }
 
-
 bool Adafruit_SensorLab::detectFXOS8700(void) {
   bool addr1C = scanI2C(0x1C);
   bool addr1D = scanI2C(0x1D);
@@ -315,7 +314,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
   }
-  if (detectLSM6DS33() || detectLSM6DSOX() || detectISM330DHCT() || 
+  if (detectLSM6DS33() || detectLSM6DSOX() || detectISM330DHCT() ||
       detectFXAS21002()) {
     return gyroscope;
   }
