@@ -14,19 +14,50 @@
 
 #include <Adafruit_SensorLab.h>
 
+/**************************************************************************/
+/*!
+  @brief Mapper helper function for floating point values
+  @param x Value to map
+  @param in_min Input range minimum for x
+  @param in_max Input range maximum for x
+  @param out_min Ouput range maximum for return
+  @param out_max Ouput range maximum for return
+  @returns Mapped value
+*/
+
+/**************************************************************************/
 float Adafruit_SensorLab::mapf(float x, float in_min, float in_max,
                                float out_min, float out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+/**************************************************************************/
+/*!
+  @brief Instantiate the SensorLab object
+  @param i2c The I2C hardware interface, default is Wire
+*/
+/**************************************************************************/
 Adafruit_SensorLab::Adafruit_SensorLab(TwoWire *i2c) { _i2c = i2c; }
 
+/**************************************************************************/
+/*!
+  @brief Initialize the sensorlab manager and begin I2C
+  @param I2C_Frequency desired I2C clock rate - default is 100KHz
+*/
+/**************************************************************************/
 void Adafruit_SensorLab::begin(uint32_t I2C_Frequency) {
   _i2c->begin();
   _i2c->setClock(I2C_Frequency);
   yield();
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid ADXL34x sensor attached and sets
+    the default accelerometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectADXL34X(void) {
   bool addr1D = scanI2C(0x1D);
   bool addr53 = scanI2C(0x53);
@@ -48,6 +79,13 @@ bool Adafruit_SensorLab::detectADXL34X(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid LSM6DS33 sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectLSM6DS33(void) {
   bool addr6A = scanI2C(0x6A);
   bool addr6B = scanI2C(0x6B);
@@ -77,6 +115,13 @@ bool Adafruit_SensorLab::detectLSM6DS33(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid LSM6DSOX sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectLSM6DSOX(void) {
   bool addr6A = scanI2C(0x6A);
   bool addr6B = scanI2C(0x6B);
@@ -105,13 +150,14 @@ bool Adafruit_SensorLab::detectLSM6DSOX(void) {
   delete _lsm6dsox;
   return false;
 }
-/**
- * @brief Scan the I2C bus for the ISM20649's addresses and assign its sensors
- * if found
- *
- * @return true if an ICM20649 was found
- * @return false an ICM20649 was not found
- */
+
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid ICM20649 sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectICM20649(void) {
   bool addr68 = scanI2C(0x68);
   bool addr69 = scanI2C(0x69);
@@ -140,6 +186,13 @@ bool Adafruit_SensorLab::detectICM20649(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid ISM330DHC sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectISM330DHCT(void) {
   bool addr6A = scanI2C(0x6A);
   bool addr6B = scanI2C(0x6B);
@@ -169,6 +222,13 @@ bool Adafruit_SensorLab::detectISM330DHCT(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid FXOS8700 sensor attached and sets
+    the default accelerometer and magnetometer sensors if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectFXOS8700(void) {
   bool addr1C = scanI2C(0x1C);
   bool addr1D = scanI2C(0x1D);
@@ -197,6 +257,13 @@ bool Adafruit_SensorLab::detectFXOS8700(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid FXAS21002C sensor attached and sets
+    the default gyroscope sensor if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectFXAS21002(void) {
   bool addr20 = scanI2C(0x20);
   bool addr21 = scanI2C(0x21);
@@ -220,6 +287,13 @@ bool Adafruit_SensorLab::detectFXAS21002(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid LIS3MDL sensor attached and sets
+    the default magnetometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectLIS3MDL(void) {
   bool addr1E = scanI2C(0x1E);
   bool addr1C = scanI2C(0x1C);
@@ -244,6 +318,13 @@ bool Adafruit_SensorLab::detectLIS3MDL(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid BMP280 sensor attached and sets
+    the default pressure and temperature sensor if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectBMP280(void) {
   bool addr77 = scanI2C(0x77);
   bool addr76 = scanI2C(0x76);
@@ -268,11 +349,16 @@ bool Adafruit_SensorLab::detectBMP280(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid DPS310 sensor attached and sets
+    the default pressure and temperature sensor if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectDPS310(void) {
   bool addr77 = scanI2C(0x77);
   bool addr76 = scanI2C(0x76);
-
-  Serial.println("Looking for DPS310");
 
   if (!addr77 && !addr76) {
     return false; // no I2C device that could possibly work found!
@@ -294,6 +380,13 @@ bool Adafruit_SensorLab::detectDPS310(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid BME280 sensor attached and sets
+    the default humidity, pressure and temperature sensor if so
+    @return True if found
+*/
+/**************************************************************************/
 bool Adafruit_SensorLab::detectBME280(void) {
   bool addr77 = scanI2C(0x77);
   bool addr76 = scanI2C(0x76);
@@ -321,6 +414,13 @@ bool Adafruit_SensorLab::detectBME280(void) {
   return false;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Look for any known accelerometer-providing sensor on I2C
+    @return A pointer to the Adafruit_Sensor device that can be queried
+    for sensor events. NULL on failure to find any matching sensor.
+*/
+/**************************************************************************/
 Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   if (accelerometer) {
     return accelerometer; // we already did this process
@@ -333,6 +433,13 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   return NULL;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Look for any known magnetometer-providing sensor on I2C
+    @return A pointer to the Adafruit_Sensor device that can be queried
+    for sensor events. NULL on failure to find any matching sensor.
+*/
+/**************************************************************************/
 Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   if (magnetometer) {
     return magnetometer; // we already did this process
@@ -344,6 +451,13 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   return NULL;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Look for any known gyroscope-providing sensor on I2C
+    @return A pointer to the Adafruit_Sensor device that can be queried
+    for sensor events. NULL on failure to find any matching sensor.
+*/
+/**************************************************************************/
 Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
@@ -356,6 +470,13 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   return NULL;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Look for any known barometric pressure-providing sensor on I2C
+    @return A pointer to the Adafruit_Sensor device that can be queried
+    for sensor events. NULL on failure to find any matching sensor.
+*/
+/**************************************************************************/
 Adafruit_Sensor *Adafruit_SensorLab::getPressureSensor(void) {
   if (pressure) {
     return pressure; // we already did this process
@@ -367,6 +488,13 @@ Adafruit_Sensor *Adafruit_SensorLab::getPressureSensor(void) {
   return NULL;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Look for any known temperature-providing sensor on I2C
+    @return A pointer to the Adafruit_Sensor device that can be queried
+    for sensor events. NULL on failure to find any matching sensor.
+*/
+/**************************************************************************/
 Adafruit_Sensor *Adafruit_SensorLab::getTemperatureSensor(void) {
   if (temperature) {
     return temperature; // we already did this process
@@ -378,6 +506,13 @@ Adafruit_Sensor *Adafruit_SensorLab::getTemperatureSensor(void) {
   return NULL;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Look for any known humidity-providing sensor on I2C
+    @return A pointer to the Adafruit_Sensor device that can be queried
+    for sensor events. NULL on failure to find any matching sensor.
+*/
+/**************************************************************************/
 Adafruit_Sensor *Adafruit_SensorLab::getHumiditySensor(void) {
   if (humidity) {
     return humidity; // we already did this process

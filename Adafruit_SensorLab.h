@@ -29,6 +29,13 @@
 #include <Adafruit_Sensor.h>
 #include <Arduino.h>
 
+/**************************************************************************/
+/*!
+  @brief A handy object that will automatically default a wide range of
+  common I2C sensors, makes it easy to perform generalized sensor measurements
+  that compile on any platform and run with any hardware attached
+*/
+/**************************************************************************/
 class Adafruit_SensorLab {
 public:
   Adafruit_SensorLab(TwoWire *theWire = &Wire);
@@ -58,8 +65,8 @@ public:
   static float mapf(float x, float in_min, float in_max, float out_min,
                     float out_max);
   static constexpr double DEGREES_PER_RADIAN =
-      (180.0 / 3.141592653589793238463);
-  static constexpr double GRAVITY_EARTH = 9.807;
+      (180.0 / 3.141592653589793238463); ///< Degrees per radian for conversion
+  static constexpr double GRAVITY_EARTH = 9.807; ///< Standard Earth Gravity
 
 private:
   bool scanI2C(uint8_t addr);
