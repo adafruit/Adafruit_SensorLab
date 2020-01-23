@@ -21,6 +21,7 @@
 #include <Adafruit_DPS310.h>
 #include <Adafruit_FXAS21002C.h>
 #include <Adafruit_FXOS8700.h>
+#include <Adafruit_ICM20649.h>
 #include <Adafruit_ISM330DHCT.h>
 #include <Adafruit_LIS3MDL.h>
 #include <Adafruit_LSM6DS33.h>
@@ -48,6 +49,7 @@ public:
   bool detectDPS310(void);
   bool detectLSM6DS33(void);
   bool detectLSM6DSOX(void);
+  bool detectICM20649(void);
   bool detectISM330DHCT(void);
   bool detectLIS3MDL(void);
   bool detectFXOS8700(void);
@@ -69,6 +71,7 @@ private:
   Adafruit_DPS310 *_dps310 = NULL;
   Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
   Adafruit_LSM6DSOX *_lsm6dsox = NULL;
+  Adafruit_ICM20649 *_icm20649 = NULL;
   Adafruit_ISM330DHCT *_ism330dhct = NULL;
   Adafruit_LIS3MDL *_lis3mdl = NULL;
   Adafruit_FXOS8700 *_fxos8700 = NULL;

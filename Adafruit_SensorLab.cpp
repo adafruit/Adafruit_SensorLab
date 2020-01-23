@@ -105,6 +105,40 @@ bool Adafruit_SensorLab::detectLSM6DSOX(void) {
   delete _lsm6dsox;
   return false;
 }
+/**
+ * @brief Scan the I2C bus for the ISM20649's addresses and assign its sensors
+ * if found
+ *
+ * @return true if an ICM20649 was found
+ * @return false an ICM20649 was not found
+ */
+bool Adafruit_SensorLab::detectICM20649(void) {
+  bool addr68 = scanI2C(0x68);
+  bool addr69 = scanI2C(0x69);
+
+  if (!addr68 && !addr69) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _icm20649 = new Adafruit_ICM20649();
+
+  if ((addr68 && _icm20649->begin_I2C(0x68)) ||
+      (addr69 && _icm20649->begin_I2C(0x69))) {
+    // yay found an ICM20649
+    Serial.println(F("Found an ICM20649 IMU"));
+    if (!accelerometer)
+      accelerometer = _icm20649->getAccelerometerSensor();
+    if (!gyroscope)
+      gyroscope = _icm20649->getGyroSensor();
+    if (!temperature) {
+      temperature = _icm20649->getTemperatureSensor();
+    }
+    return true;
+  }
+
+  delete _icm20649;
+  return false;
+}
 
 bool Adafruit_SensorLab::detectISM330DHCT(void) {
   bool addr6A = scanI2C(0x6A);
@@ -292,7 +326,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
     return accelerometer; // we already did this process
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
-      detectFXOS8700() || detectISM330DHCT()) {
+      detectFXOS8700() || detectICM20649() || detectISM330DHCT()) {
     return accelerometer;
   }
   // Nothing detected
@@ -314,8 +348,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
   }
-  if (detectLSM6DS33() || detectLSM6DSOX() || detectISM330DHCT() ||
-      detectFXAS21002()) {
+  if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
+      detectISM330DHCT() || detectFXAS21002()) {
     return gyroscope;
   }
   // Nothing detected
