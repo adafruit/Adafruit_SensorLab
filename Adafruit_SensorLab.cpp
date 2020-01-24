@@ -320,6 +320,40 @@ bool Adafruit_SensorLab::detectLIS3MDL(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid MPU6050 sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectMPU6050(void) {
+  bool addr68 = scanI2C(0x68);
+  bool addr69 = scanI2C(0x69);
+
+  if (!addr68 && !addr69) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _mpu6050 = new Adafruit_MPU6050();
+
+  if ((addr68 && _mpu6050->begin(0x68)) ||
+      (addr69 && _mpu6050->begin(0x69))) {
+    // yay found an MPU6050
+    Serial.println(F("Found an MPU6050 IMU"));
+    if (!accelerometer)
+      accelerometer = _mpu6050->getAccelerometerSensor();
+    if (!gyroscope)
+      gyroscope = _mpu6050->getGyroSensor();
+    if (!temperature) {
+      temperature = _mpu6050->getTemperatureSensor();
+    }
+    return true;
+  }
+
+  delete _mpu6050;
+  return false;
+}
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid BMP280 sensor attached and sets
     the default pressure and temperature sensor if so
     @return True if found
@@ -426,7 +460,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
     return accelerometer; // we already did this process
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
-      detectFXOS8700() || detectICM20649() || detectISM330DHCT()) {
+      detectFXOS8700() || detectICM20649() || detectISM330DHCT()|| detectMPU6050()) {
     return accelerometer;
   }
   // Nothing detected
@@ -463,7 +497,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
     return gyroscope; // we already did this process
   }
   if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
-      detectISM330DHCT() || detectFXAS21002()) {
+      detectISM330DHCT() || detectFXAS21002() || detectMPU6050()) {
     return gyroscope;
   }
   // Nothing detected
