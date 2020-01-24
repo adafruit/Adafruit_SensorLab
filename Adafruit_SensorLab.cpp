@@ -335,8 +335,7 @@ bool Adafruit_SensorLab::detectMPU6050(void) {
 
   _mpu6050 = new Adafruit_MPU6050();
 
-  if ((addr68 && _mpu6050->begin(0x68)) ||
-      (addr69 && _mpu6050->begin(0x69))) {
+  if ((addr68 && _mpu6050->begin(0x68)) || (addr69 && _mpu6050->begin(0x69))) {
     // yay found an MPU6050
     Serial.println(F("Found an MPU6050 IMU"));
     if (!accelerometer)
@@ -460,7 +459,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
     return accelerometer; // we already did this process
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
-      detectFXOS8700() || detectICM20649() || detectISM330DHCT()|| detectMPU6050()) {
+      detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
+      detectMPU6050()) {
     return accelerometer;
   }
   // Nothing detected
