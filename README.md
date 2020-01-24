@@ -9,7 +9,15 @@ plenty of flash storage :)
 ## Supported environmental sensors:
   * BMP280 - Temperature & Pressure
   * BME280 - Temperature, Humidity & Pressure
+  * DSP310 - Temperature & Pressure
 
 ## Supported motion sensors:
-  * ADXL343 & ADXL345 - 3-Axis accelerometers
-  * LSM6DS33 - 6-DoF accelerometer/gyro + temperature
+  * LSM6DS33 - 6-DoF Accelerometer & Gyro + Temperature
+  * LSM6DSOX - 6-DoF Accelerometer & Gyro + Temperature
+  * ICM20649 - 6-DoF Accelerometer & Gyro + Temperature
+  * ISM330DHC - 6-DoF Accelerometer & Gyro + Temperature
+  * FXOS8700 - 6-DoF Accelerometer & Magnetometer
+  * MPU6050 - 6-DoF Accelerometer & Gyro
+  * FXAS21001C - 3-Axis Gyroscope
+  * LIS3MDL - 3-Axis Magnetometer
+  * ADXL343 & ADXL345 - 3-Axis Accelerometers
