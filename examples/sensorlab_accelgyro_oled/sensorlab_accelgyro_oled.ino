@@ -27,7 +27,7 @@ void setup() {
   } else {
     gyro->printSensorDetails();
   }
-  
+
   Serial.println("Looking for a accelerometer");
   accel = lab.getAccelerometer();
   if (! accel) {
@@ -52,7 +52,7 @@ void loop() {
 
   display.clearDisplay();
   display.setCursor(0,0);
-  
+
   Serial.print("Accelerometer ");
   Serial.print("X: "); Serial.print(accel_event.acceleration.x, 1);
   Serial.print(" m/s^2, ");
@@ -68,11 +68,11 @@ void loop() {
 
   Serial.print("Gyroscope ");
   Serial.print("X: "); Serial.print(gyro_event.gyro.x*Adafruit_SensorLab::DEGREES_PER_RADIAN, 1);
-  Serial.print(" rps, ");
+  Serial.print(" dps, ");
   Serial.print("Y: "); Serial.print(gyro_event.gyro.y*Adafruit_SensorLab::DEGREES_PER_RADIAN, 1);
-  Serial.print(" rps, ");
+  Serial.print(" dps, ");
   Serial.print("Z: "); Serial.print(gyro_event.gyro.z*Adafruit_SensorLab::DEGREES_PER_RADIAN, 1);
-  Serial.println(" rps");
+  Serial.println(" dps");
 
   display.println("Gyroscope - dps");
   display.print(gyro_event.gyro.x*Adafruit_SensorLab::DEGREES_PER_RADIAN, 1);
@@ -81,7 +81,7 @@ void loop() {
   display.print(", ");
   display.print(gyro_event.gyro.z*Adafruit_SensorLab::DEGREES_PER_RADIAN, 1);
   display.println("");
-  
+
   display.display();
   delay(100);
 }
