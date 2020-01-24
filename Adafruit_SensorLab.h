@@ -27,6 +27,7 @@
 #include <Adafruit_LSM6DS33.h>
 #include <Adafruit_LSM6DSOX.h>
 #include <Adafruit_MPU6050.h>
+#include <Adafruit_MSA301.h>
 #include <Adafruit_Sensor.h>
 #include <Arduino.h>
 
@@ -63,6 +64,7 @@ public:
   bool detectLSM6DSOX(void);
   bool detectLIS3MDL(void);
   bool detectMPU6050(void);
+  bool detectMSA301(void);
 
   static float mapf(float x, float in_min, float in_max, float out_min,
                     float out_max);
@@ -86,6 +88,7 @@ private:
   Adafruit_FXOS8700 *_fxos8700 = NULL;
   Adafruit_FXAS21002C *_fxas21002 = NULL;
   Adafruit_MPU6050 *_mpu6050 = NULL;
+  Adafruit_MSA301 *_msa301 = NULL;
 
   Adafruit_Sensor *pressure = NULL;
   Adafruit_Sensor *temperature = NULL;

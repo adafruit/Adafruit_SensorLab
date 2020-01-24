@@ -21,3 +21,4 @@ plenty of flash storage :)
   * FXAS21001C - 3-Axis Gyroscope
   * LIS3MDL - 3-Axis Magnetometer
   * ADXL343 & ADXL345 - 3-Axis Accelerometers
+  * MSA301 - 3-Axis Accelerometer
