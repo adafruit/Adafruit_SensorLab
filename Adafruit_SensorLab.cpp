@@ -351,6 +351,34 @@ bool Adafruit_SensorLab::detectMPU6050(void) {
   delete _mpu6050;
   return false;
 }
+
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid MSA301 sensor attached and sets
+    the default accelerometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectMSA301(void) {
+  bool addr26 = scanI2C(0x26);
+
+  if (!addr26) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _msa301 = new Adafruit_MSA301();
+
+  if ((addr26 && _msa301->begin(0x26))) {
+    // yay found a MSA301
+    Serial.println(F("Found a MSA301 accelerometer"));
+    accelerometer = _msa301;
+    return true;
+  }
+
+  delete _msa301;
+  return false;
+}
+
 /**************************************************************************/
 /*!
     @brief  Detect if we have a valid BMP280 sensor attached and sets
@@ -460,7 +488,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
       detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
-      detectMPU6050()) {
+      detectMPU6050() || detectMSA301()) {
     return accelerometer;
   }
   // Nothing detected
