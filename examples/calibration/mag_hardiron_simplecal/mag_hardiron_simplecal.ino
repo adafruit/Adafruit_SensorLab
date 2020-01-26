@@ -20,8 +20,6 @@ float min_z, max_z, mid_z;
 void setup(void) {
   Serial.begin(115200);
   while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
-
-  Serial.println("Adafruit LIS3MDL test!");
   
   Serial.println(F("Sensor Lab - Magnetometer Calibration!"));
   lab.begin();
@@ -63,14 +61,17 @@ void loop() {
   max_y = max(max_y, y);
   max_z = max(max_z, z);
 
-  //Serial.println(min_x); Serial.println(max_x);
-
-  mid_x = (max_x - min_x) / 2;
-  mid_y = (max_y - min_y) / 2;
-  mid_z = (max_z - min_z) / 2;
+  mid_x = (max_x + min_x) / 2;
+  mid_y = (max_y + min_y) / 2;
+  mid_z = (max_z + min_z) / 2;
   Serial.print(" Hard offset: (");
   Serial.print(mid_x); Serial.print(", ");
   Serial.print(mid_y); Serial.print(", ");
-  Serial.print(mid_z); Serial.println(")");  
+  Serial.print(mid_z); Serial.print(")");  
+
+  Serial.print(" Field: (");
+  Serial.print((max_x - min_x)/2); Serial.print(", ");
+  Serial.print((max_y - min_y)/); Serial.print(", ");
+  Serial.print((max_z - min_z)/2); Serial.println(")");    
   delay(10); 
 }
