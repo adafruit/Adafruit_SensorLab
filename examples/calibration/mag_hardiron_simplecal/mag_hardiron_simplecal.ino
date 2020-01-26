@@ -71,7 +71,7 @@ void loop() {
 
   Serial.print(" Field: (");
   Serial.print((max_x - min_x)/2); Serial.print(", ");
-  Serial.print((max_y - min_y)/); Serial.print(", ");
+  Serial.print((max_y - min_y)/2); Serial.print(", ");
   Serial.print((max_z - min_z)/2); Serial.println(")");    
   delay(10); 
 }
