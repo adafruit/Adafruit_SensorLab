@@ -81,6 +81,33 @@ bool Adafruit_SensorLab::detectADXL34X(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid ADXL34x sensor attached and sets
+    the default accelerometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectLSM303A(void) {
+  bool addr19 = scanI2C(0x19);
+
+  if (!addr19) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lsm303a = new Adafruit_LSM303_Accel_Unified(303);
+
+  if (_lsm303a->begin()) {
+    // yay found a LSM303 Accel
+    Serial.println(F("Found a LSM303 accelerometer"));
+    accelerometer = _lsm303a;
+    return true;
+  }
+
+  delete _lsm303a;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid LSM6DS33 sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -517,7 +544,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
       detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
-      detectMPU6050() || detectMSA301()) {
+      detectMPU6050() || detectMSA301() || detectLSM303A()) {
     return accelerometer;
   }
   // Nothing detected
