@@ -7,9 +7,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arduino-platform: ["pybadge", "pybadge_tinyusb", "pygamer", "pyportal",
-	                   "hallowing_m4", "hallowing_m0",
-                           "monster_m4sk", "cpx_ada", "pyportal_titano"]
+        arduino-platform: ["uno", "leonardo", "mega2560", "zero",
+	                   "esp8266", "esp32",
+                           "metro_m4", "pybadge", "cpx_ada", "clue"]
 
     runs-on: ubuntu-latest
     
