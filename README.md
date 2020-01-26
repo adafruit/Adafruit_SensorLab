@@ -19,6 +19,7 @@ plenty of flash storage :)
   * FXOS8700 - 6-DoF Accelerometer & Magnetometer
   * MPU6050 - 6-DoF Accelerometer & Gyro
   * FXAS21001C - 3-Axis Gyroscope
-  * LIS3MDL - 3-Axis Magnetometer
+  * LIS2MDL - 3-Axis Magnetometer (also in LSM303AGR)
+  * LIS3MDL - 3-Axis Magnetometer (also in LSM9DS1)
   * ADXL343 & ADXL345 - 3-Axis Accelerometers
   * MSA301 - 3-Axis Accelerometer

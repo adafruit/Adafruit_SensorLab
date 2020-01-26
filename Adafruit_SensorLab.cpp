@@ -320,6 +320,35 @@ bool Adafruit_SensorLab::detectLIS3MDL(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid LIS2MDL sensor attached and sets
+    the default magnetometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectLIS2MDL(void) {
+  bool addr1E = scanI2C(0x1E);
+
+  if (!addr1E) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lis2mdl = new Adafruit_LIS2MDL();
+
+  if (_lis2mdl->begin()) {
+    // yay found a LIS2MDL
+    Serial.println(F("Found a LIS2MDL IMU"));
+
+    if (!magnetometer)
+      magnetometer = _lis2mdl;
+    return true;
+  }
+
+  delete _lis2mdl;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid MPU6050 sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -506,7 +535,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   if (magnetometer) {
     return magnetometer; // we already did this process
   }
-  if (detectLIS3MDL() || detectFXOS8700()) {
+  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700()) {
     return magnetometer;
   }
   // Nothing detected
