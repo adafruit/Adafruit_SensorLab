@@ -126,12 +126,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aacb35f91407d33a6c0d8d56d60aea0ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___sensor_lab.html#aacb35f91407d33a6c0d8d56d60aea0ee">detectISM330DHCT</a> (void)</td></tr>
 <tr class="memdesc:aacb35f91407d33a6c0d8d56d60aea0ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if we have a valid ISM330DHC sensor attached and sets the default temperature, accelerometer and gyroscope sensors if so.  <a href="#aacb35f91407d33a6c0d8d56d60aea0ee">More...</a><br /></td></tr>
 <tr class="separator:aacb35f91407d33a6c0d8d56d60aea0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2acb9032a38bdfb09c331ed6fd05adc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___sensor_lab.html#ab2acb9032a38bdfb09c331ed6fd05adc">detectLSM303A</a> (void)</td></tr>
+<tr class="memdesc:ab2acb9032a38bdfb09c331ed6fd05adc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if we have a valid ADXL34x sensor attached and sets the default accelerometer sensor if so.  <a href="#ab2acb9032a38bdfb09c331ed6fd05adc">More...</a><br /></td></tr>
+<tr class="separator:ab2acb9032a38bdfb09c331ed6fd05adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca26d0aaad7cb5bdba397b2f28618cf4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___sensor_lab.html#aca26d0aaad7cb5bdba397b2f28618cf4">detectLSM6DS33</a> (void)</td></tr>
 <tr class="memdesc:aca26d0aaad7cb5bdba397b2f28618cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if we have a valid LSM6DS33 sensor attached and sets the default temperature, accelerometer and gyroscope sensors if so.  <a href="#aca26d0aaad7cb5bdba397b2f28618cf4">More...</a><br /></td></tr>
 <tr class="separator:aca26d0aaad7cb5bdba397b2f28618cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7ac3372ac85424a206861f08bf4d6d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___sensor_lab.html#ac7ac3372ac85424a206861f08bf4d6d6">detectLSM6DSOX</a> (void)</td></tr>
 <tr class="memdesc:ac7ac3372ac85424a206861f08bf4d6d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if we have a valid LSM6DSOX sensor attached and sets the default temperature, accelerometer and gyroscope sensors if so.  <a href="#ac7ac3372ac85424a206861f08bf4d6d6">More...</a><br /></td></tr>
 <tr class="separator:ac7ac3372ac85424a206861f08bf4d6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68cdd6b4f365470024311e8a6d1ac717"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___sensor_lab.html#a68cdd6b4f365470024311e8a6d1ac717">detectLIS2MDL</a> (void)</td></tr>
+<tr class="memdesc:a68cdd6b4f365470024311e8a6d1ac717"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if we have a valid LIS2MDL sensor attached and sets the default magnetometer sensor if so.  <a href="#a68cdd6b4f365470024311e8a6d1ac717">More...</a><br /></td></tr>
+<tr class="separator:a68cdd6b4f365470024311e8a6d1ac717"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ca41b39feeb38991b5f94d624664ed7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___sensor_lab.html#a2ca41b39feeb38991b5f94d624664ed7">detectLIS3MDL</a> (void)</td></tr>
 <tr class="memdesc:a2ca41b39feeb38991b5f94d624664ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if we have a valid LIS3MDL sensor attached and sets the default magnetometer sensor if so.  <a href="#a2ca41b39feeb38991b5f94d624664ed7">More...</a><br /></td></tr>
 <tr class="separator:a2ca41b39feeb38991b5f94d624664ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -546,6 +552,27 @@ static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a cl
 
 </div>
 </div>
+<a id="ab2acb9032a38bdfb09c331ed6fd05adc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2acb9032a38bdfb09c331ed6fd05adc">&#9670;&nbsp;</a></span>detectLSM303A()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Adafruit_SensorLab::detectLSM303A </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Detect if we have a valid ADXL34x sensor attached and sets the default accelerometer sensor if so. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if found </dd></dl>
+
+</div>
+</div>
 <a id="aca26d0aaad7cb5bdba397b2f28618cf4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca26d0aaad7cb5bdba397b2f28618cf4">&#9670;&nbsp;</a></span>detectLSM6DS33()</h2>
 
@@ -584,6 +611,27 @@ static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a cl
 </div><div class="memdoc">
 
 <p>Detect if we have a valid LSM6DSOX sensor attached and sets the default temperature, accelerometer and gyroscope sensors if so. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if found </dd></dl>
+
+</div>
+</div>
+<a id="a68cdd6b4f365470024311e8a6d1ac717"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68cdd6b4f365470024311e8a6d1ac717">&#9670;&nbsp;</a></span>detectLIS2MDL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Adafruit_SensorLab::detectLIS2MDL </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Detect if we have a valid LIS2MDL sensor attached and sets the default magnetometer sensor if so. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if found </dd></dl>
 
 </div>
