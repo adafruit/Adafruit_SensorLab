@@ -180,6 +180,40 @@ bool Adafruit_SensorLab::detectLSM6DSOX(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid LSM9DS1 sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectLSM9DS1(void) {
+  bool addr6B = scanI2C(0x6B);
+
+  if (!addr6B) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lsm9ds1 = new Adafruit_LSM9DS1(9051);
+
+  if (_lsm9ds1->begin()) {
+    // yay found a LSM9DS1
+    Serial.println(F("Found a LSM9DS1 IMU"));
+
+    if (!accelerometer)
+      accelerometer = &_lsm9ds1->getAccel();
+    if (!gyroscope)
+      gyroscope = &_lsm9ds1->getGyro();
+    if (!temperature) {
+      temperature = &_lsm9ds1->getTemp();
+    }
+    return true;
+  }
+
+  delete _lsm9ds1;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid ICM20649 sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -544,7 +578,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
       detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
-      detectMPU6050() || detectMSA301() || detectLSM303A()) {
+      detectMPU6050() || detectMSA301() || detectLSM303A() ||
+      detectLSM9DS1()) {
     return accelerometer;
   }
   // Nothing detected
@@ -581,7 +616,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
     return gyroscope; // we already did this process
   }
   if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
-      detectISM330DHCT() || detectFXAS21002() || detectMPU6050()) {
+      detectISM330DHCT() || detectFXAS21002() || detectMPU6050() ||
+      detectLSM9DS1()) {
     return gyroscope;
   }
   // Nothing detected
