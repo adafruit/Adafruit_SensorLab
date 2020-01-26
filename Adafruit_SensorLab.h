@@ -23,8 +23,8 @@
 #include <Adafruit_FXOS8700.h>
 #include <Adafruit_ICM20649.h>
 #include <Adafruit_ISM330DHCT.h>
-#include <Adafruit_LIS3MDL.h>
 #include <Adafruit_LIS2MDL.h>
+#include <Adafruit_LIS3MDL.h>
 #include <Adafruit_LSM303_Accel.h>
 #include <Adafruit_LSM6DS33.h>
 #include <Adafruit_LSM6DSOX.h>
