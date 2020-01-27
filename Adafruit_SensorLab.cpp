@@ -696,8 +696,8 @@ bool Adafruit_SensorLab::scanI2C(uint8_t addr) {
   _i2c->beginTransmission(addr);
   bool f = (_i2c->endTransmission() == 0);
   if (f) {
-    Serial.print("Found addr 0x");
-    Serial.println(addr, HEX);
+    // Serial.print("Found addr 0x");
+    // Serial.println(addr, HEX);
   }
   return f;
 }
