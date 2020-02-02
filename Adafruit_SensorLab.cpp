@@ -214,6 +214,43 @@ bool Adafruit_SensorLab::detectLSM9DS1(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid LSM9DS0 sensor attached and sets
+    the default temperature, accelerometer, mag and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectLSM9DS0(void) {
+  bool addr6B = scanI2C(0x6B);
+  bool addr1D = scanI2C(0x1D);
+
+  if (!addr6B || !addr1D) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lsm9ds0 = new Adafruit_LSM9DS0(9050);
+
+  if (_lsm9ds0->begin()) {
+    // yay found a LSM9DS0
+    Serial.println(F("Found a LSM9DS0 IMU"));
+
+    if (!accelerometer)
+      accelerometer = &_lsm9ds0->getAccel();
+    if (!gyroscope)
+      gyroscope = &_lsm9ds0->getGyro();
+    if (!magnetometer)
+      magnetometer = &_lsm9ds0->getMag();
+    if (!temperature) {
+      temperature = &_lsm9ds0->getTemp();
+    }
+    return true;
+  }
+
+  delete _lsm9ds0;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid ICM20649 sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -578,7 +615,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
       detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
-      detectMPU6050() || detectMSA301() || detectLSM303A() || detectLSM9DS1()) {
+      detectMPU6050() || detectMSA301() || detectLSM303A() || 
+      detectLSM9DS1() || detectLSM9DS0()) {
     return accelerometer;
   }
   // Nothing detected
@@ -596,7 +634,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   if (magnetometer) {
     return magnetometer; // we already did this process
   }
-  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700()) {
+  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() || detectLSM9DS0()) {
     return magnetometer;
   }
   // Nothing detected
@@ -616,7 +654,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   }
   if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
       detectISM330DHCT() || detectFXAS21002() || detectMPU6050() ||
-      detectLSM9DS1()) {
+      detectLSM9DS1() || detectLSM9DS0()) {
     return gyroscope;
   }
   // Nothing detected
