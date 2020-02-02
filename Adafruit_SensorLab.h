@@ -28,8 +28,8 @@
 #include <Adafruit_LSM303_Accel.h>
 #include <Adafruit_LSM6DS33.h>
 #include <Adafruit_LSM6DSOX.h>
-#include <Adafruit_LSM9DS1.h>
 #include <Adafruit_LSM9DS0.h>
+#include <Adafruit_LSM9DS1.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_MSA301.h>
 #include <Adafruit_Sensor.h>

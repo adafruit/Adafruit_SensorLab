@@ -615,8 +615,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
       detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
-      detectMPU6050() || detectMSA301() || detectLSM303A() || 
-      detectLSM9DS1() || detectLSM9DS0()) {
+      detectMPU6050() || detectMSA301() || detectLSM303A() || detectLSM9DS1() ||
+      detectLSM9DS0()) {
     return accelerometer;
   }
   // Nothing detected
@@ -634,7 +634,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   if (magnetometer) {
     return magnetometer; // we already did this process
   }
-  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() || detectLSM9DS0()) {
+  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
+      detectLSM9DS0()) {
     return magnetometer;
   }
   // Nothing detected
