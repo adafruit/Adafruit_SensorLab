@@ -14,6 +14,7 @@ var searchData=
   ['detectlsm303a',['detectLSM303A',['../class_adafruit___sensor_lab.html#ab2acb9032a38bdfb09c331ed6fd05adc',1,'Adafruit_SensorLab']]],
   ['detectlsm6ds33',['detectLSM6DS33',['../class_adafruit___sensor_lab.html#aca26d0aaad7cb5bdba397b2f28618cf4',1,'Adafruit_SensorLab']]],
   ['detectlsm6dsox',['detectLSM6DSOX',['../class_adafruit___sensor_lab.html#ac7ac3372ac85424a206861f08bf4d6d6',1,'Adafruit_SensorLab']]],
+  ['detectlsm9ds0',['detectLSM9DS0',['../class_adafruit___sensor_lab.html#aebb5814bf507efcd65f1e6d5b013310e',1,'Adafruit_SensorLab']]],
   ['detectlsm9ds1',['detectLSM9DS1',['../class_adafruit___sensor_lab.html#af6307358d94e421a7f7241a3e0b627cc',1,'Adafruit_SensorLab']]],
   ['detectmpu6050',['detectMPU6050',['../class_adafruit___sensor_lab.html#a6e4c77fc008e8d5be51b853bea88ac39',1,'Adafruit_SensorLab']]],
   ['detectmsa301',['detectMSA301',['../class_adafruit___sensor_lab.html#a8ce1d88c2daeea7a8cb89ca3746aa4bd',1,'Adafruit_SensorLab']]]
