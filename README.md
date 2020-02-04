@@ -12,6 +12,7 @@ plenty of flash storage :)
   * DSP310 - Temperature & Pressure
 
 ## Supported motion sensors:
+  * LSM9DS0 - 9-DoF Accelerometer, Gyro, and Magnetometer + Temperature
   * LSM6DS33 - 6-DoF Accelerometer & Gyro + Temperature
   * LSM6DSOX - 6-DoF Accelerometer & Gyro + Temperature
   * ICM20649 - 6-DoF Accelerometer & Gyro + Temperature
