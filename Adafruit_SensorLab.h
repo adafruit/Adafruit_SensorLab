@@ -25,6 +25,7 @@
 #include <Adafruit_ISM330DHCT.h>
 #include <Adafruit_LIS2MDL.h>
 #include <Adafruit_LIS3MDL.h>
+#include <Adafruit_LPS2X.h>
 #include <Adafruit_LSM303_Accel.h>
 #include <Adafruit_LSM6DS33.h>
 #include <Adafruit_LSM6DSOX.h>
@@ -64,6 +65,7 @@ public:
   bool detectFXAS21002(void);
   bool detectICM20649(void);
   bool detectISM330DHCT(void);
+  bool detectLPS2X(void);
   bool detectLSM303A(void);
   bool detectLSM6DS33(void);
   bool detectLSM6DSOX(void);
@@ -88,6 +90,7 @@ private:
   Adafruit_BMP280 *_bmp280 = NULL;
   Adafruit_BME280 *_bme280 = NULL;
   Adafruit_DPS310 *_dps310 = NULL;
+  Adafruit_LPS2X *_lps2x = NULL;
   Adafruit_LSM303_Accel_Unified *_lsm303a = NULL;
   Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
   Adafruit_LSM6DSOX *_lsm6dsox = NULL;

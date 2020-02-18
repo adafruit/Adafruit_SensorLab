@@ -539,6 +539,37 @@ bool Adafruit_SensorLab::detectBMP280(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid LPS2X sensor attached and sets
+    the default pressure and temperature sensor if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectLPS2X(void) {
+  bool addr5d = scanI2C(0x5D);
+  bool addr5c = scanI2C(0x5C);
+
+  if (!addr5d && !addr5c) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lps2x = new Adafruit_LPS2X();
+
+  if ((addr5d && _lps2x->begin_I2C(0x5D)) || (addr5c && _lps2x->begin_I2C(0x5C))) {
+    // yay found a LPS2X
+    Serial.println(F("Found a LPS2X Pressure sensor"));
+    if (!pressure)
+      pressure = _lps2x->getPressureSensor();
+    if (!temperature)
+      temperature = _lps2x->getTemperatureSensor();
+    return true;
+  }
+
+  delete _lps2x;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid DPS310 sensor attached and sets
     the default pressure and temperature sensor if so
     @return True if found
@@ -673,7 +704,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getPressureSensor(void) {
   if (pressure) {
     return pressure; // we already did this process
   }
-  if (detectBMP280() || detectBME280() || detectDPS310()) {
+  if (detectBMP280() || detectBME280() || detectDPS310() || detectLPS2X()) {
     return pressure;
   }
   // Nothing detected
@@ -691,7 +722,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getTemperatureSensor(void) {
   if (temperature) {
     return temperature; // we already did this process
   }
-  if (detectBMP280() || detectBME280() || detectDPS310()) {
+  if (detectBMP280() || detectBME280() || detectDPS310() || detectLPS2X()) {
     return temperature;
   }
   // Nothing detected
