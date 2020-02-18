@@ -20,8 +20,13 @@ Adafruit_NXPSensorFusion filter; // slowest
 uint32_t timestamp;
 
 Adafruit_SensorLab lab;
-Adafruit_Sensor_Calibration cal;
 Adafruit_Sensor *accelerometer, *gyroscope, *magnetometer;
+
+#if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
+  Adafruit_Sensor_Calibration_EEPROM cal;
+#else
+  Adafruit_Sensor_Calibration_SDFat cal;
+#endif
 
 void setup() {
   Serial.begin(115200);

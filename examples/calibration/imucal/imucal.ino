@@ -14,7 +14,12 @@
 #include <Adafruit_Sensor_Calibration.h>
 
 Adafruit_SensorLab lab;
-Adafruit_Sensor_Calibration cal;
+
+#if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
+  Adafruit_Sensor_Calibration_EEPROM cal;
+#else
+  Adafruit_Sensor_Calibration_SDFat cal;
+#endif
 
 Adafruit_Sensor *mag = NULL, *gyro = NULL, *accel = NULL;
 sensors_event_t mag_event, gyro_event, accel_event;
