@@ -554,7 +554,8 @@ bool Adafruit_SensorLab::detectLPS2X(void) {
 
   _lps2x = new Adafruit_LPS2X();
 
-  if ((addr5d && _lps2x->begin_I2C(0x5D)) || (addr5c && _lps2x->begin_I2C(0x5C))) {
+  if ((addr5d && _lps2x->begin_I2C(0x5D)) ||
+      (addr5c && _lps2x->begin_I2C(0x5C))) {
     // yay found a LPS2X
     Serial.println(F("Found a LPS2X Pressure sensor"));
     if (!pressure)
