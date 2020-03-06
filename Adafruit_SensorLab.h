@@ -21,6 +21,7 @@
 #include <Adafruit_DPS310.h>
 #include <Adafruit_FXAS21002C.h>
 #include <Adafruit_FXOS8700.h>
+#include <Adafruit_HTS221.h>
 #include <Adafruit_ICM20649.h>
 #include <Adafruit_ISM330DHCT.h>
 #include <Adafruit_LIS2MDL.h>
@@ -58,21 +59,22 @@ public:
   float calculateAltitude(float currentPressure_hPa,
                           float originPressure_hPa = 1013.25);
   bool detectADXL34X(void);
-  bool detectBMP280(void);
   bool detectBME280(void);
+  bool detectBMP280(void);
   bool detectDPS310(void);
-  bool detectFXOS8700(void);
   bool detectFXAS21002(void);
+  bool detectFXOS8700(void);
+  bool detectHTS221(void);
   bool detectICM20649(void);
   bool detectISM330DHCT(void);
+  bool detectLIS2MDL(void);
+  bool detectLIS3MDL(void);
   bool detectLPS2X(void);
   bool detectLSM303A(void);
   bool detectLSM6DS33(void);
   bool detectLSM6DSOX(void);
-  bool detectLSM9DS1(void);
   bool detectLSM9DS0(void);
-  bool detectLIS2MDL(void);
-  bool detectLIS3MDL(void);
+  bool detectLSM9DS1(void);
   bool detectMPU6050(void);
   bool detectMSA301(void);
 
@@ -87,29 +89,30 @@ private:
   TwoWire *_i2c;
 
   Adafruit_ADXL343 *_adxl34x = NULL;
-  Adafruit_BMP280 *_bmp280 = NULL;
   Adafruit_BME280 *_bme280 = NULL;
+  Adafruit_BMP280 *_bmp280 = NULL;
   Adafruit_DPS310 *_dps310 = NULL;
-  Adafruit_LPS2X *_lps2x = NULL;
-  Adafruit_LSM303_Accel_Unified *_lsm303a = NULL;
-  Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
-  Adafruit_LSM6DSOX *_lsm6dsox = NULL;
-  Adafruit_LSM9DS1 *_lsm9ds1 = NULL;
-  Adafruit_LSM9DS0 *_lsm9ds0 = NULL;
+  Adafruit_FXAS21002C *_fxas21002 = NULL;
+  Adafruit_FXOS8700 *_fxos8700 = NULL;
+  Adafruit_HTS221 *_hts221 = NULL;
   Adafruit_ICM20649 *_icm20649 = NULL;
   Adafruit_ISM330DHCT *_ism330dhct = NULL;
   Adafruit_LIS2MDL *_lis2mdl = NULL;
   Adafruit_LIS3MDL *_lis3mdl = NULL;
-  Adafruit_FXOS8700 *_fxos8700 = NULL;
-  Adafruit_FXAS21002C *_fxas21002 = NULL;
+  Adafruit_LPS2X *_lps2x = NULL;
+  Adafruit_LSM303_Accel_Unified *_lsm303a = NULL;
+  Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
+  Adafruit_LSM6DSOX *_lsm6dsox = NULL;
+  Adafruit_LSM9DS0 *_lsm9ds0 = NULL;
+  Adafruit_LSM9DS1 *_lsm9ds1 = NULL;
   Adafruit_MPU6050 *_mpu6050 = NULL;
   Adafruit_MSA301 *_msa301 = NULL;
 
-  Adafruit_Sensor *pressure = NULL;
-  Adafruit_Sensor *temperature = NULL;
-  Adafruit_Sensor *humidity = NULL;
   Adafruit_Sensor *accelerometer = NULL;
   Adafruit_Sensor *gyroscope = NULL;
+  Adafruit_Sensor *humidity = NULL;
   Adafruit_Sensor *magnetometer = NULL;
+  Adafruit_Sensor *pressure = NULL;
+  Adafruit_Sensor *temperature = NULL;
 };
 #endif

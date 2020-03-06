@@ -283,7 +283,33 @@ bool Adafruit_SensorLab::detectICM20649(void) {
   delete _icm20649;
   return false;
 }
+/**************************************************************************/
+/*!
+    @brief  Detect if we have a valid HTS221 sensor attached and sets
+    the default temperature and humidity sensors if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectHTS221(void) {
+  bool addr5f = scanI2C(0x5F);
 
+  if (!addr5f) {
+    return false; // not even maybe!
+  }
+
+  _hts221 = new Adafruit_HTS221();
+  if (addr5f && _hts221->begin_I2C(0x5F)) {
+    // we got one!
+    Serial.println(F("Found a HTS221 Humidity+Temperature sensor"));
+    if (!humidity)
+      humidity = _hts221->getHumiditySensor();
+    if (!temperature)
+      temperature = _hts221->getTemperatureSensor();
+    return true;
+  }
+  delete _hts221;
+  return false;
+}
 /**************************************************************************/
 /*!
     @brief  Detect if we have a valid ISM330DHC sensor attached and sets
@@ -741,7 +767,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getHumiditySensor(void) {
   if (humidity) {
     return humidity; // we already did this process
   }
-  if (detectBME280()) {
+  if (detectBME280() || detectHTS221()) {
     return humidity;
   }
   // Nothing detected
