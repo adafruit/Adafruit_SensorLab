@@ -23,6 +23,7 @@
 #include <Adafruit_FXOS8700.h>
 #include <Adafruit_HTS221.h>
 #include <Adafruit_ICM20649.h>
+#include <Adafruit_ICM20948.h>
 #include <Adafruit_ISM330DHCT.h>
 #include <Adafruit_LIS2MDL.h>
 #include <Adafruit_LIS3MDL.h>
@@ -66,6 +67,7 @@ public:
   bool detectFXOS8700(void);
   bool detectHTS221(void);
   bool detectICM20649(void);
+  bool detectICM20948(void);
   bool detectISM330DHCT(void);
   bool detectLIS2MDL(void);
   bool detectLIS3MDL(void);
@@ -96,6 +98,7 @@ private:
   Adafruit_FXOS8700 *_fxos8700 = NULL;
   Adafruit_HTS221 *_hts221 = NULL;
   Adafruit_ICM20649 *_icm20649 = NULL;
+  Adafruit_ICM20948 *_icm20948 = NULL;
   Adafruit_ISM330DHCT *_ism330dhct = NULL;
   Adafruit_LIS2MDL *_lis2mdl = NULL;
   Adafruit_LIS3MDL *_lis3mdl = NULL;
