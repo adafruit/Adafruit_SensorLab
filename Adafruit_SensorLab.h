@@ -88,7 +88,6 @@ private:
   bool scanI2C(uint8_t addr);
   TwoWire *_i2c;
 
-
   Adafruit_ADXL343 *_adxl34x = NULL;
   Adafruit_BME280 *_bme280 = NULL;
   Adafruit_BMP280 *_bmp280 = NULL;
