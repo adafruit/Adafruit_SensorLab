@@ -565,7 +565,7 @@ bool Adafruit_SensorLab::detectBMP280(void) {
 
 /**************************************************************************/
 /*!
-    @brief  Detect if we have a valid LPS2X sensor attached and sets
+    @brief  Detect if we have a valid LPS25 sensor attached and sets
     the default pressure and temperature sensor if so
     @return True if found
 */
@@ -578,12 +578,12 @@ bool Adafruit_SensorLab::detectLPS2X(void) {
     return false; // no I2C device that could possibly work found!
   }
 
-  _lps2x = new Adafruit_LPS2X();
+  _lps2x = new Adafruit_LPS25();
 
   if ((addr5d && _lps2x->begin_I2C(0x5D)) ||
       (addr5c && _lps2x->begin_I2C(0x5C))) {
     // yay found a LPS2X
-    Serial.println(F("Found a LPS2X Pressure sensor"));
+    Serial.println(F("Found a LPS25 Pressure sensor"));
     if (!pressure)
       pressure = _lps2x->getPressureSensor();
     if (!temperature)
