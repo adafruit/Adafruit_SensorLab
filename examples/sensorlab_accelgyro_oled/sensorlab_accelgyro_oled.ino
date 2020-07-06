@@ -1,3 +1,8 @@
+/* Simple demo to detect an accelerometer and gyro and display their measurements
+ *  to an SSD1306 OLED. Works well with the Adafruit 0.91" Stemma QT OLED:
+ *  https://www.adafruit.com/product/4440
+ */
+
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SensorLab.h>
 Adafruit_SensorLab lab;
