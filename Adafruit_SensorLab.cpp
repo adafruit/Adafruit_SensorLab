@@ -312,6 +312,43 @@ bool Adafruit_SensorLab::detectHTS221(void) {
 }
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid ICM20948 sensor attached and sets
+    the default temperature, accelerometer, magnetomete, and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectICM20948(void) {
+  bool addr68 = scanI2C(0x68);
+  bool addr69 = scanI2C(0x69);
+
+  if (!addr68 && !addr69) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _icm20948 = new Adafruit_ICM20948();
+
+  if ((addr68 && _icm20948->begin_I2C(0x68)) ||
+      (addr69 && _icm20948->begin_I2C(0x69))) {
+    // yay found an ICM20948
+    Serial.println(F("Found an ICM20948 IMU"));
+    if (!accelerometer)
+      accelerometer = _icm20948->getAccelerometerSensor();
+    if (!gyroscope)
+      gyroscope = _icm20948->getGyroSensor();
+    if (!magnetometer)
+      magnetometer = _icm20948->getMagnetometerSensor();
+    if (!temperature) {
+      temperature = _icm20948->getTemperatureSensor();
+    }
+    return true;
+  }
+
+  delete _icm20948;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid ISM330DHC sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -672,7 +709,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
     return accelerometer; // we already did this process
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
-      detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
+      detectFXOS8700() || detectICM20649() || detectICM20948() || detectISM330DHCT() ||
       detectMPU6050() || detectMSA301() || detectLSM303A() || detectLSM9DS1() ||
       detectLSM9DS0()) {
     return accelerometer;
@@ -692,7 +729,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
   if (magnetometer) {
     return magnetometer; // we already did this process
   }
-  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
+  if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() || detectICM20948() ||
       detectLSM9DS0()) {
     return magnetometer;
   }
@@ -711,7 +748,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
   }
-  if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
+  if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() || detectICM20948() ||
       detectISM330DHCT() || detectFXAS21002() || detectMPU6050() ||
       detectLSM9DS1() || detectLSM9DS0()) {
     return gyroscope;
