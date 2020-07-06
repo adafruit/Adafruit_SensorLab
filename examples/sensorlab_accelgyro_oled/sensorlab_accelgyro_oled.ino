@@ -13,7 +13,7 @@ Adafruit_SSD1306 display = Adafruit_SSD1306(128, 32, &Wire);
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) delay(10);
+  //while (!Serial) delay(10);
   Serial.println("6-DoF Accel/Gyro OLED demo");
   lab.begin();
 
