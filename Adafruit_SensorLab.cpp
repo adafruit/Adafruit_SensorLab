@@ -317,7 +317,7 @@ bool Adafruit_SensorLab::detectHTS221(void) {
     @return True if found
 */
 /**************************************************************************/
-bool Adafruit_SensorLab::detectISM330DHCT(void) {
+bool Adafruit_SensorLab::detectISM330DHCX(void) {
   bool addr6A = scanI2C(0x6A);
   bool addr6B = scanI2C(0x6B);
 
@@ -325,24 +325,24 @@ bool Adafruit_SensorLab::detectISM330DHCT(void) {
     return false; // no I2C device that could possibly work found!
   }
 
-  _ism330dhct = new Adafruit_ISM330DHCT();
+  _ism330dhcx = new Adafruit_ISM330DHCX();
 
-  if ((addr6A && _ism330dhct->begin_I2C(0x6A)) ||
-      (addr6B && _ism330dhct->begin_I2C(0x6B))) {
+  if ((addr6A && _ism330dhcx->begin_I2C(0x6A)) ||
+      (addr6B && _ism330dhcx->begin_I2C(0x6B))) {
     // yay found a ISM330
-    Serial.println(F("Found a ISM330DHCT IMU"));
+    Serial.println(F("Found a ISM330DHCX IMU"));
 
     if (!accelerometer)
-      accelerometer = _ism330dhct->getAccelerometerSensor();
+      accelerometer = _ism330dhcx->getAccelerometerSensor();
     if (!gyroscope)
-      gyroscope = _ism330dhct->getGyroSensor();
+      gyroscope = _ism330dhcx->getGyroSensor();
     if (!temperature) {
-      temperature = _ism330dhct->getTemperatureSensor();
+      temperature = _ism330dhcx->getTemperatureSensor();
     }
     return true;
   }
 
-  delete _ism330dhct;
+  delete _ism330dhcx;
   return false;
 }
 
@@ -672,7 +672,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
     return accelerometer; // we already did this process
   }
   if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
-      detectFXOS8700() || detectICM20649() || detectISM330DHCT() ||
+      detectFXOS8700() || detectICM20649() || detectISM330DHCX() ||
       detectMPU6050() || detectMSA301() || detectLSM303A() || detectLSM9DS1() ||
       detectLSM9DS0()) {
     return accelerometer;
@@ -712,7 +712,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
     return gyroscope; // we already did this process
   }
   if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
-      detectISM330DHCT() || detectFXAS21002() || detectMPU6050() ||
+      detectISM330DHCX() || detectFXAS21002() || detectMPU6050() ||
       detectLSM9DS1() || detectLSM9DS0()) {
     return gyroscope;
   }
