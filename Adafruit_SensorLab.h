@@ -35,6 +35,7 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_MSA301.h>
 #include <Adafruit_Sensor.h>
+#include <Adafruit_MLX90393.h>
 #include <Arduino.h>
 
 /**************************************************************************/
@@ -77,6 +78,7 @@ public:
   bool detectLSM9DS1(void);
   bool detectMPU6050(void);
   bool detectMSA301(void);
+  bool detectMLX90393(void);
 
   static float mapf(float x, float in_min, float in_max, float out_min,
                     float out_max);
@@ -107,6 +109,7 @@ private:
   Adafruit_LSM9DS1 *_lsm9ds1 = NULL;
   Adafruit_MPU6050 *_mpu6050 = NULL;
   Adafruit_MSA301 *_msa301 = NULL;
+  Adafruit_MLX90393 *_mlx90393 = NULL;
 
   Adafruit_Sensor *accelerometer = NULL;
   Adafruit_Sensor *gyroscope = NULL;
