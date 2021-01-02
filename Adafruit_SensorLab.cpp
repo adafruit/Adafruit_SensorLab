@@ -669,32 +669,32 @@ bool Adafruit_SensorLab::detectBME280(void) {
 /**************************************************************************/
 
 bool Adafruit_SensorLab::detectMLX90393(void) {
-	bool addr0C = scanI2C(0x0C);
-	bool addr0D = scanI2C(0x0D);
-	bool addr0E = scanI2C(0x0E);
-	bool addr0F = scanI2C(0x0F);
-	Serial.println("Looking for MLX90393");
-	
-	if (!addr0C && !addr0D && !addr0E && !addr0F) {
-		return false;	// no I2C device that could possibly work found!
-	}
-	
-	_mlx90393 = new Adafruit_MLX90393();
-	
-	if((addr0C && _mlx90393->begin_I2C(0x0C)) ||
-		(addr0D && _mlx90393->begin_I2C(0x0D)) ||
-		(addr0E && _mlx90393->begin_I2C(0x0E)) || 
-		(addr0F && _mlx90393->begin_I2C(0x0F))) {
-			// yay found an MLX90393
+  bool addr0C = scanI2C(0x0C);
+  bool addr0D = scanI2C(0x0D);
+  bool addr0E = scanI2C(0x0E);
+  bool addr0F = scanI2C(0x0F);
+  Serial.println("Looking for MLX90393");
+
+  if (!addr0C && !addr0D && !addr0E && !addr0F) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _mlx90393 = new Adafruit_MLX90393();
+
+  if ((addr0C && _mlx90393->begin_I2C(0x0C)) ||
+      (addr0D && _mlx90393->begin_I2C(0x0D)) ||
+      (addr0E && _mlx90393->begin_I2C(0x0E)) ||
+      (addr0F && _mlx90393->begin_I2C(0x0F))) {
+    // yay found an MLX90393
     Serial.println(F("Found a MLX90393 Magnetometer sensor"));
     if (!magnetometer)
-	  magnetometer = _mlx90393;
+      magnetometer = _mlx90393;
 
     return true;
-	}
-	
-	delete _mlx90393;
-	return false;
+  }
+
+  delete _mlx90393;
+  return false;
 }
 
 /**************************************************************************/
