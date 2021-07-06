@@ -780,7 +780,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getTemperatureSensor(void) {
   if (temperature) {
     return temperature; // we already did this process
   }
-  if (detectBMP280() || detectBME280() || detectDPS310() || detectLPS2X() || detectAHTX0()) {
+  if (detectBMP280() || detectBME280() || detectDPS310() || detectLPS2X() ||
+      detectAHTX0()) {
     return temperature;
   }
   // Nothing detected
