@@ -2,6 +2,7 @@ var searchData=
 [
   ['degrees_5fper_5fradian',['DEGREES_PER_RADIAN',['../class_adafruit___sensor_lab.html#a60259bed391c26b1424a22cd72cc0ee0',1,'Adafruit_SensorLab']]],
   ['detectadxl34x',['detectADXL34X',['../class_adafruit___sensor_lab.html#a36e7bc33ce5e71cd985f737814340d2c',1,'Adafruit_SensorLab']]],
+  ['detectahtx0',['detectAHTX0',['../class_adafruit___sensor_lab.html#a98e6d6b754c8a940300b700f62bf8d91',1,'Adafruit_SensorLab']]],
   ['detectbme280',['detectBME280',['../class_adafruit___sensor_lab.html#a8dbe5dd96bf126e31af096307efd707c',1,'Adafruit_SensorLab']]],
   ['detectbmp280',['detectBMP280',['../class_adafruit___sensor_lab.html#a7ebe339ee16453cb687b7a8d98816970',1,'Adafruit_SensorLab']]],
   ['detectdps310',['detectDPS310',['../class_adafruit___sensor_lab.html#a2020e98b45f49d4987ae6f393313123a',1,'Adafruit_SensorLab']]],
