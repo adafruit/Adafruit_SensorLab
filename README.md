@@ -7,6 +7,8 @@ plenty of flash storage :)
 
 
 ## Supported environmental sensors:
+  * AHT10 - Temperature & Humidity
+  * AHT20 - Temperature & Humidity
   * BMP280 - Temperature & Pressure
   * BME280 - Temperature, Humidity & Pressure
   * DSP310 - Temperature & Pressure
