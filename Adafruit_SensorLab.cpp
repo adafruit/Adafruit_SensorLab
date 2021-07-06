@@ -81,8 +81,8 @@ bool Adafruit_SensorLab::detectADXL34X(void) {
 
 /**************************************************************************/
 /*!
-    @brief  Detect if we have a valid AHTX0 (AHT10 & AHT20) sensor attached
-    and sets the default temperature and humidity sensors if so.
+    @brief  Detect if we have a valid AHTX0 (AHT10 & AHT20) sensor
+    attached and sets the default temperature and humidity sensors if so.
     @return True if sensor is detected, False otherwise.
 */
 /**************************************************************************/
