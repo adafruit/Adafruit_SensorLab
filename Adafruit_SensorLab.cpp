@@ -360,23 +360,28 @@ bool Adafruit_SensorLab::detectFXOS8700(void) {
   bool addr1F = scanI2C(0x1F);
 
   if (!addr1C && !addr1D && !addr1E && !addr1F) {
+    delete _fxos8700;
     return false; // no I2C device that could possibly work found!
+  } else {
+    // Create based on the address we found. This sensor library doesn't work
+    // like the others, so brute force it.
+    if (addr1C) _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B, 0x1C);
+    if (addr1D) _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B, 0x1D);
+    if (addr1E) _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B, 0x1E);
+    if (addr1F) _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B, 0x1F);
+
+    // Make sure it initializes properly - again different from the others...
+    if (_fxos8700->begin()){
+      // yay found a FXOS8700
+      Serial.println(F("Found a FXOS8700 eCompass"));
+
+      if (!accelerometer)
+        accelerometer = _fxos8700->getAccelerometerSensor();
+      if (!magnetometer)
+        magnetometer = _fxos8700->getMagnetometerSensor();
+      return true;
+    }
   }
-
-  _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B);
-
-  if ((addr1C && _fxos8700->begin()) || (addr1D && _fxos8700->begin()) ||
-      (addr1E && _fxos8700->begin()) || (addr1F && _fxos8700->begin())) {
-    // yay found a FXOS8700
-    Serial.println(F("Found a FXOS8700 eCompass"));
-
-    if (!accelerometer)
-      accelerometer = _fxos8700->getAccelerometerSensor();
-    if (!magnetometer)
-      magnetometer = _fxos8700->getMagnetometerSensor();
-    return true;
-  }
-
   delete _fxos8700;
   return false;
 }
@@ -393,20 +398,23 @@ bool Adafruit_SensorLab::detectFXAS21002(void) {
   bool addr21 = scanI2C(0x21);
 
   if (!addr20 && !addr21) {
+    delete _fxas21002;
     return false; // no I2C device that could possibly work found!
+  } else {
+    // Create based on the address we found. This sensor library doesn't work
+    // like the others, so brute force it.
+    if (addr20) _fxas21002 = new Adafruit_FXAS21002C(21002, 0x20);
+    if (addr21) _fxas21002 = new Adafruit_FXAS21002C(21002, 0x21);
+
+    if (_fxas21002->begin()){
+      // yay found a FXAS21002C
+      Serial.println(F("Found a FXAS21002C gyro"));
+
+      if (!gyroscope)
+        gyroscope = _fxas21002;
+      return true;
+    }
   }
-
-  _fxas21002 = new Adafruit_FXAS21002C(21002);
-
-  if ((addr20 && _fxas21002->begin()) || (addr21 && _fxas21002->begin())) {
-    // yay found a FXAS21002C
-    Serial.println(F("Found a FXAS21002C gyro"));
-
-    if (!gyroscope)
-      gyroscope = _fxas21002;
-    return true;
-  }
-
   delete _fxas21002;
   return false;
 }
@@ -788,7 +796,8 @@ float Adafruit_SensorLab::calculateAltitude(float currentPressure_hPa,
 
 bool Adafruit_SensorLab::scanI2C(uint8_t addr) {
   yield();
-
+  // Serial.print("Checking 0x");
+  // Serial.println(addr, HEX);
   // A basic scanner, see if it ACK's
   _i2c->beginTransmission(addr);
   bool f = (_i2c->endTransmission() == 0);
