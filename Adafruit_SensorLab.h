@@ -16,6 +16,7 @@
 #define ADAFRUIT_SENSORLAB_H
 
 #include <Adafruit_ADXL343.h>
+#include <Adafruit_AHTX0.h>
 #include <Adafruit_BME280.h>
 #include <Adafruit_BMP280.h>
 #include <Adafruit_DPS310.h>
@@ -59,6 +60,7 @@ public:
   float calculateAltitude(float currentPressure_hPa,
                           float originPressure_hPa = 1013.25);
   bool detectADXL34X(void);
+  bool detectAHTX0(void);
   bool detectBME280(void);
   bool detectBMP280(void);
   bool detectDPS310(void);
@@ -89,6 +91,7 @@ private:
   TwoWire *_i2c;
 
   Adafruit_ADXL343 *_adxl34x = NULL;
+  Adafruit_AHTX0 *_ahtx0 = NULL;
   Adafruit_BME280 *_bme280 = NULL;
   Adafruit_BMP280 *_bmp280 = NULL;
   Adafruit_DPS310 *_dps310 = NULL;

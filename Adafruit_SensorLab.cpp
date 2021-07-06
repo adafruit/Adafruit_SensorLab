@@ -81,6 +81,35 @@ bool Adafruit_SensorLab::detectADXL34X(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid AHTX0 (AHT10 & AHT20) sensor
+    attached and sets the default temperature and humidity sensors if so.
+    @return True if sensor is detected, False otherwise.
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectAHTX0(void) {
+  bool addr38 = scanI2C(0x38);
+
+  if (!addr38) {
+    return false; // not even maybe!
+  }
+
+  _ahtx0 = new Adafruit_AHTX0();
+
+  if (addr38 && _ahtx0->begin()) {
+    // we got one!
+    Serial.println(F("Found an AHT20 Temperature & Humidity Sensor"));
+    if (!humidity)
+      humidity = _ahtx0->getHumiditySensor();
+    if (!temperature)
+      temperature = _ahtx0->getTemperatureSensor();
+    return true;
+  }
+  delete _ahtx0;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid ADXL34x sensor attached and sets
     the default accelerometer sensor if so
     @return True if found
@@ -283,6 +312,7 @@ bool Adafruit_SensorLab::detectICM20649(void) {
   delete _icm20649;
   return false;
 }
+
 /**************************************************************************/
 /*!
     @brief  Detect if we have a valid HTS221 sensor attached and sets
@@ -310,6 +340,7 @@ bool Adafruit_SensorLab::detectHTS221(void) {
   delete _hts221;
   return false;
 }
+
 /**************************************************************************/
 /*!
     @brief  Detect if we have a valid ISM330DHC sensor attached and sets
@@ -749,7 +780,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getTemperatureSensor(void) {
   if (temperature) {
     return temperature; // we already did this process
   }
-  if (detectBMP280() || detectBME280() || detectDPS310() || detectLPS2X()) {
+  if (detectBMP280() || detectBME280() || detectDPS310() || detectLPS2X() ||
+      detectAHTX0()) {
     return temperature;
   }
   // Nothing detected
@@ -767,7 +799,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getHumiditySensor(void) {
   if (humidity) {
     return humidity; // we already did this process
   }
-  if (detectBME280() || detectHTS221()) {
+  if (detectBME280() || detectHTS221() || detectAHTX0()) {
     return humidity;
   }
   // Nothing detected
