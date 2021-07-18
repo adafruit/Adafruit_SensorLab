@@ -231,6 +231,8 @@ bool Adafruit_SensorLab::detectLSM9DS1(void) {
       accelerometer = &_lsm9ds1->getAccel();
     if (!gyroscope)
       gyroscope = &_lsm9ds1->getGyro();
+    if (!magnetometer)
+      magnetometer = &_lsm9ds1->getMag();
     if (!temperature) {
       temperature = &_lsm9ds1->getTemp();
     }
@@ -724,7 +726,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
     return magnetometer; // we already did this process
   }
   if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
-      detectLSM9DS0()) {
+      detectLSM9DS1() || detectLSM9DS0()) {
     return magnetometer;
   }
   // Nothing detected
