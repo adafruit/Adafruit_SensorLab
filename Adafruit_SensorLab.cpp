@@ -66,7 +66,7 @@ bool Adafruit_SensorLab::detectADXL34X(void) {
     return false; // no I2C device that could possibly work found!
   }
 
-  _adxl34x = new Adafruit_ADXL343(343);
+  _adxl34x = new Adafruit_ADXL343(343, _i2c);
 
   if ((addr1D && _adxl34x->begin(0x1D)) || (addr53 && _adxl34x->begin(0x53))) {
     // yay found a ADXL34x
@@ -95,7 +95,7 @@ bool Adafruit_SensorLab::detectAHTX0(void) {
 
   _ahtx0 = new Adafruit_AHTX0();
 
-  if (addr38 && _ahtx0->begin()) {
+  if (addr38 && _ahtx0->begin(_i2c)) {
     // we got one!
     Serial.println(F("Found an AHT20 Temperature & Humidity Sensor"));
     if (!humidity)
@@ -124,7 +124,7 @@ bool Adafruit_SensorLab::detectLSM303A(void) {
 
   _lsm303a = new Adafruit_LSM303_Accel_Unified(303);
 
-  if (_lsm303a->begin()) {
+  if (_lsm303a->begin(0x19, _i2c)) {
     // yay found a LSM303 Accel
     Serial.println(F("Found a LSM303 accelerometer"));
     accelerometer = _lsm303a;
@@ -152,8 +152,8 @@ bool Adafruit_SensorLab::detectLSM6DS33(void) {
 
   _lsm6ds33 = new Adafruit_LSM6DS33();
 
-  if ((addr6A && _lsm6ds33->begin_I2C(0x6A)) ||
-      (addr6B && _lsm6ds33->begin_I2C(0x6B))) {
+  if ((addr6A && _lsm6ds33->begin_I2C(0x6A, _i2c)) ||
+      (addr6B && _lsm6ds33->begin_I2C(0x6B, _i2c))) {
     // yay found a LSM6DS33
     Serial.println(F("Found a LSM6DS33 IMU"));
 
@@ -188,8 +188,8 @@ bool Adafruit_SensorLab::detectLSM6DSOX(void) {
 
   _lsm6dsox = new Adafruit_LSM6DSOX();
 
-  if ((addr6A && _lsm6dsox->begin_I2C(0x6A)) ||
-      (addr6B && _lsm6dsox->begin_I2C(0x6B))) {
+  if ((addr6A && _lsm6dsox->begin_I2C(0x6A, _i2c)) ||
+      (addr6B && _lsm6dsox->begin_I2C(0x6B, _i2c))) {
     // yay found a LSM6DSOX
     Serial.println(F("Found a LSM6DSOX IMU"));
 
@@ -221,7 +221,7 @@ bool Adafruit_SensorLab::detectLSM9DS1(void) {
     return false; // no I2C device that could possibly work found!
   }
 
-  _lsm9ds1 = new Adafruit_LSM9DS1(9051);
+  _lsm9ds1 = new Adafruit_LSM9DS1(_i2c, 9051);
 
   if (_lsm9ds1->begin()) {
     // yay found a LSM9DS1
@@ -258,7 +258,7 @@ bool Adafruit_SensorLab::detectLSM9DS0(void) {
     return false; // no I2C device that could possibly work found!
   }
 
-  _lsm9ds0 = new Adafruit_LSM9DS0(9050);
+  _lsm9ds0 = new Adafruit_LSM9DS0(_i2c, 9050);
 
   if (_lsm9ds0->begin()) {
     // yay found a LSM9DS0
@@ -297,8 +297,8 @@ bool Adafruit_SensorLab::detectICM20649(void) {
 
   _icm20649 = new Adafruit_ICM20649();
 
-  if ((addr68 && _icm20649->begin_I2C(0x68)) ||
-      (addr69 && _icm20649->begin_I2C(0x69))) {
+  if ((addr68 && _icm20649->begin_I2C(0x68, _i2c)) ||
+      (addr69 && _icm20649->begin_I2C(0x69, _i2c))) {
     // yay found an ICM20649
     Serial.println(F("Found an ICM20649 IMU"));
     if (!accelerometer)
@@ -330,7 +330,7 @@ bool Adafruit_SensorLab::detectHTS221(void) {
   }
 
   _hts221 = new Adafruit_HTS221();
-  if (addr5f && _hts221->begin_I2C(0x5F)) {
+  if (addr5f && _hts221->begin_I2C(0x5F, _i2c)) {
     // we got one!
     Serial.println(F("Found a HTS221 Humidity+Temperature sensor"));
     if (!humidity)
@@ -360,8 +360,8 @@ bool Adafruit_SensorLab::detectISM330DHCX(void) {
 
   _ism330dhcx = new Adafruit_ISM330DHCX();
 
-  if ((addr6A && _ism330dhcx->begin_I2C(0x6A)) ||
-      (addr6B && _ism330dhcx->begin_I2C(0x6B))) {
+  if ((addr6A && _ism330dhcx->begin_I2C(0x6A, _i2c)) ||
+      (addr6B && _ism330dhcx->begin_I2C(0x6B, _i2c))) {
     // yay found a ISM330
     Serial.println(F("Found a ISM330DHCX IMU"));
 
@@ -398,8 +398,10 @@ bool Adafruit_SensorLab::detectFXOS8700(void) {
 
   _fxos8700 = new Adafruit_FXOS8700(0x8700A, 0x8700B);
 
-  if ((addr1C && _fxos8700->begin()) || (addr1D && _fxos8700->begin()) ||
-      (addr1E && _fxos8700->begin()) || (addr1F && _fxos8700->begin())) {
+  if ((addr1C && _fxos8700->begin(0x1C, _i2c)) ||
+      (addr1D && _fxos8700->begin(0x1D, _i2c)) ||
+      (addr1E && _fxos8700->begin(0x1E, _i2c)) ||
+      (addr1F && _fxos8700->begin(0x1F, _i2c))) {
     // yay found a FXOS8700
     Serial.println(F("Found a FXOS8700 eCompass"));
 
@@ -431,7 +433,8 @@ bool Adafruit_SensorLab::detectFXAS21002(void) {
 
   _fxas21002 = new Adafruit_FXAS21002C(21002);
 
-  if ((addr20 && _fxas21002->begin()) || (addr21 && _fxas21002->begin())) {
+  if ((addr20 && _fxas21002->begin(0x20, _i2c)) ||
+      (addr21 && _fxas21002->begin(0x21, _i2c))) {
     // yay found a FXAS21002C
     Serial.println(F("Found a FXAS21002C gyro"));
 
@@ -461,8 +464,8 @@ bool Adafruit_SensorLab::detectLIS3MDL(void) {
 
   _lis3mdl = new Adafruit_LIS3MDL();
 
-  if ((addr1E && _lis3mdl->begin_I2C(0x1E)) ||
-      (addr1C && _lis3mdl->begin_I2C(0x1C))) {
+  if ((addr1E && _lis3mdl->begin_I2C(0x1E, _i2c)) ||
+      (addr1C && _lis3mdl->begin_I2C(0x1C, _i2c))) {
     // yay found a LIS3MDL
     Serial.println(F("Found a LIS3MDL IMU"));
 
@@ -491,7 +494,7 @@ bool Adafruit_SensorLab::detectLIS2MDL(void) {
 
   _lis2mdl = new Adafruit_LIS2MDL();
 
-  if (_lis2mdl->begin()) {
+  if (_lis2mdl->begin(0x1E, _i2c)) {
     // yay found a LIS2MDL
     Serial.println(F("Found a LIS2MDL IMU"));
 
@@ -521,7 +524,8 @@ bool Adafruit_SensorLab::detectMPU6050(void) {
 
   _mpu6050 = new Adafruit_MPU6050();
 
-  if ((addr68 && _mpu6050->begin(0x68)) || (addr69 && _mpu6050->begin(0x69))) {
+  if ((addr68 && _mpu6050->begin(0x68, _i2c)) ||
+      (addr69 && _mpu6050->begin(0x69, _i2c))) {
     // yay found an MPU6050
     Serial.println(F("Found an MPU6050 IMU"));
     if (!accelerometer)
@@ -554,7 +558,7 @@ bool Adafruit_SensorLab::detectMSA301(void) {
 
   _msa301 = new Adafruit_MSA301();
 
-  if ((addr26 && _msa301->begin(0x26))) {
+  if ((addr26 && _msa301->begin(0x26, _i2c))) {
     // yay found a MSA301
     Serial.println(F("Found a MSA301 accelerometer"));
     accelerometer = _msa301;
@@ -580,7 +584,7 @@ bool Adafruit_SensorLab::detectBMP280(void) {
     return false; // no I2C device that could possibly work found!
   }
 
-  _bmp280 = new Adafruit_BMP280();
+  _bmp280 = new Adafruit_BMP280(_i2c);
 
   if ((addr77 && _bmp280->begin(0x77)) || (addr76 && _bmp280->begin(0x76))) {
     // yay found a BMP280
@@ -613,8 +617,8 @@ bool Adafruit_SensorLab::detectLPS2X(void) {
 
   _lps2x = new Adafruit_LPS25();
 
-  if ((addr5d && _lps2x->begin_I2C(0x5D)) ||
-      (addr5c && _lps2x->begin_I2C(0x5C))) {
+  if ((addr5d && _lps2x->begin_I2C(0x5D, _i2c)) ||
+      (addr5c && _lps2x->begin_I2C(0x5C, _i2c))) {
     // yay found a LPS2X
     Serial.println(F("Found a LPS25 Pressure sensor"));
     if (!pressure)
@@ -644,8 +648,8 @@ bool Adafruit_SensorLab::detectDPS310(void) {
   }
 
   Adafruit_DPS310 *_dps310 = new Adafruit_DPS310();
-  if ((addr77 && _dps310->begin_I2C(0x77)) ||
-      (addr76 && _dps310->begin_I2C(0x76))) {
+  if ((addr77 && _dps310->begin_I2C(0x77, _i2c)) ||
+      (addr76 && _dps310->begin_I2C(0x76, _i2c))) {
     // yay found a DPS310
     Serial.println(F("Found a DPS310 Pressure sensor"));
     if (!pressure)
@@ -677,7 +681,8 @@ bool Adafruit_SensorLab::detectBME280(void) {
 
   _bme280 = new Adafruit_BME280();
 
-  if ((addr77 && _bme280->begin()) || (addr76 && _bme280->begin(0x76))) {
+  if ((addr77 && _bme280->begin(0x77, _i2c)) ||
+      (addr76 && _bme280->begin(0x76, _i2c))) {
     // yay found a BME280
     Serial.println(F("Found a BME280 Pressure+Humidity sensor"));
     if (!pressure)
