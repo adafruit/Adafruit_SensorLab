@@ -26,6 +26,7 @@ plenty of flash storage :)
 ## Supported magnetometers
   * LIS2MDL - 3-Axis Magnetometer (also in LSM303AGR)
   * LIS3MDL - 3-Axis Magnetometer (also in LSM9DS1)
+  * MLX90393 - 3-Axis Magnetometer
 
 ## Supported accelerometers
   * ADXL343 & ADXL345 - 3-Axis Accelerometers
