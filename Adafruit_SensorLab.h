@@ -33,6 +33,7 @@
 #include <Adafruit_LSM6DSOX.h>
 #include <Adafruit_LSM9DS0.h>
 #include <Adafruit_LSM9DS1.h>
+#include <Adafruit_MLX90393.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_MSA301.h>
 #include <Adafruit_Sensor.h>
@@ -77,6 +78,7 @@ public:
   bool detectLSM6DSOX(void);
   bool detectLSM9DS0(void);
   bool detectLSM9DS1(void);
+  bool detectMLX90393(void);
   bool detectMPU6050(void);
   bool detectMSA301(void);
 
@@ -108,6 +110,7 @@ private:
   Adafruit_LSM6DSOX *_lsm6dsox = NULL;
   Adafruit_LSM9DS0 *_lsm9ds0 = NULL;
   Adafruit_LSM9DS1 *_lsm9ds1 = NULL;
+  Adafruit_MLX90393 *_mlx90393 = NULL;
   Adafruit_MPU6050 *_mpu6050 = NULL;
   Adafruit_MSA301 *_msa301 = NULL;
 
