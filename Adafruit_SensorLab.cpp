@@ -526,8 +526,21 @@ bool Adafruit_SensorLab::detectMLX90393(void) {
 
   if ((addr0C && _mlx90393->begin_I2C(0x0C, _i2c)) ||
       (addr18 && _mlx90393->begin_I2C(0x18, _i2c))) {
-    // yay found a MLX90393
+		  
+    // Found an MLX90393!
     Serial.println(F("Found a MLX90393 IMU"));
+	
+	// Set to lowest gain and aim for sensitivity = ~0.3 for X, Y, and Z
+	_mlx90393->setGain(MLX90393_GAIN_1X);
+	_mlx90393->setResolution(MLX90393_X, MLX90393_RES_17);
+	_mlx90393->setResolution(MLX90393_Y, MLX90393_RES_17);
+	_mlx90393->setResolution(MLX90393_Z, MLX90393_RES_16);
+	
+	// Use maximum oversampling for better precision
+	_mlx90393->setOversampling(MLX90393_OSR_3);
+	
+	// Use decent filtering to get better precision with fast sampling
+	_mlx90393->setFilter(MLX90393_FILTER_5);
 
     if (!magnetometer)
       magnetometer = _mlx90393;
