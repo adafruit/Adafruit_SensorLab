@@ -589,6 +589,35 @@ bool Adafruit_SensorLab::detectMLX90393(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid MMC5603 sensor attached and sets
+    the default magnetometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectMMC5603(void) {
+  bool addr30 = scanI2C(0x30);
+
+  if (!addr30) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _mmc5603 = new Adafruit_MMC5603(12345);
+
+  if ((addr30 && _mmc5603->begin(0x30, _i2c))) {
+    // yay found a MMC5603
+    Serial.println(F("Found a MMC5603 IMU"));
+
+    if (!magnetometer)
+      magnetometer = _mmc5603;
+    return true;
+  }
+
+  delete _mmc5603;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid MPU6050 sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -811,7 +840,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
     return magnetometer; // we already did this process
   }
   if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
-      detectLSM9DS1() || detectLSM9DS0() || detectMLX90393()) {
+      detectLSM9DS1() || detectLSM9DS0() || detectMLX90393() ||
+      detectMMC5603()) {
     return magnetometer;
   }
   // Nothing detected
