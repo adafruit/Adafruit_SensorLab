@@ -30,10 +30,12 @@
 #include <Adafruit_LPS2X.h>
 #include <Adafruit_LSM303_Accel.h>
 #include <Adafruit_LSM6DS33.h>
+#include <Adafruit_LSM6DS3TRC.h>
 #include <Adafruit_LSM6DSOX.h>
 #include <Adafruit_LSM9DS0.h>
 #include <Adafruit_LSM9DS1.h>
 #include <Adafruit_MLX90393.h>
+#include <Adafruit_MMC56x3.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_MSA301.h>
 #include <Adafruit_Sensor.h>
@@ -75,10 +77,12 @@ public:
   bool detectLPS2X(void);
   bool detectLSM303A(void);
   bool detectLSM6DS33(void);
+  bool detectLSM6DS3TRC(void);
   bool detectLSM6DSOX(void);
   bool detectLSM9DS0(void);
   bool detectLSM9DS1(void);
   bool detectMLX90393(void);
+  bool detectMMC5603(void);
   bool detectMPU6050(void);
   bool detectMSA301(void);
 
@@ -107,10 +111,12 @@ private:
   Adafruit_LPS2X *_lps2x = NULL;
   Adafruit_LSM303_Accel_Unified *_lsm303a = NULL;
   Adafruit_LSM6DS33 *_lsm6ds33 = NULL;
+  Adafruit_LSM6DS3TRC *_lsm6ds3trc = NULL;
   Adafruit_LSM6DSOX *_lsm6dsox = NULL;
   Adafruit_LSM9DS0 *_lsm9ds0 = NULL;
   Adafruit_LSM9DS1 *_lsm9ds1 = NULL;
   Adafruit_MLX90393 *_mlx90393 = NULL;
+  Adafruit_MMC5603 *_mmc5603 = NULL;
   Adafruit_MPU6050 *_mpu6050 = NULL;
   Adafruit_MSA301 *_msa301 = NULL;
 

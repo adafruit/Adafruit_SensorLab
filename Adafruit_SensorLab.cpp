@@ -173,6 +173,42 @@ bool Adafruit_SensorLab::detectLSM6DS33(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid LSM6DS3TR-C sensor attached and sets
+    the default temperature, accelerometer and gyroscope sensors if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectLSM6DS3TRC(void) {
+  bool addr6A = scanI2C(0x6A);
+  bool addr6B = scanI2C(0x6B);
+
+  if (!addr6A && !addr6B) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _lsm6ds3trc = new Adafruit_LSM6DS3TRC();
+
+  if ((addr6A && _lsm6ds3trc->begin_I2C(0x6A, _i2c)) ||
+      (addr6B && _lsm6ds3trc->begin_I2C(0x6B, _i2c))) {
+    // yay found a LSM6DS3TR-C
+    Serial.println(F("Found a LSM6DS3TR-C IMU"));
+
+    if (!accelerometer)
+      accelerometer = _lsm6ds3trc->getAccelerometerSensor();
+    if (!gyroscope)
+      gyroscope = _lsm6ds3trc->getGyroSensor();
+    if (!temperature) {
+      temperature = _lsm6ds3trc->getTemperatureSensor();
+    }
+    return true;
+  }
+
+  delete _lsm6ds3trc;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid LSM6DSOX sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -553,6 +589,35 @@ bool Adafruit_SensorLab::detectMLX90393(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Detect if we have a valid MMC5603 sensor attached and sets
+    the default magnetometer sensor if so
+    @return True if found
+*/
+/**************************************************************************/
+bool Adafruit_SensorLab::detectMMC5603(void) {
+  bool addr30 = scanI2C(0x30);
+
+  if (!addr30) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _mmc5603 = new Adafruit_MMC5603(12345);
+
+  if ((addr30 && _mmc5603->begin(0x30, _i2c))) {
+    // yay found a MMC5603
+    Serial.println(F("Found a MMC5603 IMU"));
+
+    if (!magnetometer)
+      magnetometer = _mmc5603;
+    return true;
+  }
+
+  delete _mmc5603;
+  return false;
+}
+
+/**************************************************************************/
+/*!
     @brief  Detect if we have a valid MPU6050 sensor attached and sets
     the default temperature, accelerometer and gyroscope sensors if so
     @return True if found
@@ -753,10 +818,10 @@ Adafruit_Sensor *Adafruit_SensorLab::getAccelerometer(void) {
   if (accelerometer) {
     return accelerometer; // we already did this process
   }
-  if (detectADXL34X() || detectLSM6DS33() || detectLSM6DSOX() ||
-      detectFXOS8700() || detectICM20649() || detectISM330DHCX() ||
-      detectMPU6050() || detectMSA301() || detectLSM303A() || detectLSM9DS1() ||
-      detectLSM9DS0()) {
+  if (detectADXL34X() || detectLSM6DS33() || detectLSM6DS3TRC() ||
+      detectLSM6DSOX() || detectFXOS8700() || detectICM20649() ||
+      detectISM330DHCX() || detectMPU6050() || detectMSA301() ||
+      detectLSM303A() || detectLSM9DS1() || detectLSM9DS0()) {
     return accelerometer;
   }
   // Nothing detected
@@ -775,7 +840,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
     return magnetometer; // we already did this process
   }
   if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
-      detectLSM9DS1() || detectLSM9DS0() || detectMLX90393()) {
+      detectLSM9DS1() || detectLSM9DS0() || detectMLX90393() ||
+      detectMMC5603()) {
     return magnetometer;
   }
   // Nothing detected
@@ -793,9 +859,9 @@ Adafruit_Sensor *Adafruit_SensorLab::getGyroscope(void) {
   if (gyroscope) {
     return gyroscope; // we already did this process
   }
-  if (detectLSM6DS33() || detectLSM6DSOX() || detectICM20649() ||
-      detectISM330DHCX() || detectFXAS21002() || detectMPU6050() ||
-      detectLSM9DS1() || detectLSM9DS0()) {
+  if (detectLSM6DS33() || detectLSM6DS3TRC() || detectLSM6DSOX() ||
+      detectICM20649() || detectISM330DHCX() || detectFXAS21002() ||
+      detectMPU6050() || detectLSM9DS1() || detectLSM9DS0()) {
     return gyroscope;
   }
   // Nothing detected
