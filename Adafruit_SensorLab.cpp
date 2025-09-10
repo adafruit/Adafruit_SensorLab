@@ -870,7 +870,7 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
     return magnetometer; // we already did this process
   }
   if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
-      detectHMC5883L() || detectLSM9DS1() || detectLSM9DS0() || 
+      detectHMC5883L() || detectLSM9DS1() || detectLSM9DS0() ||
       detectMLX90393() || detectMMC5603()) {
     return magnetometer;
   }
