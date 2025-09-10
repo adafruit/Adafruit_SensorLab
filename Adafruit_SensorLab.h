@@ -22,6 +22,7 @@
 #include <Adafruit_DPS310.h>
 #include <Adafruit_FXAS21002C.h>
 #include <Adafruit_FXOS8700.h>
+#include <Adafruit_HMC5883_U.h>
 #include <Adafruit_HTS221.h>
 #include <Adafruit_ICM20649.h>
 #include <Adafruit_ISM330DHCX.h>
@@ -69,6 +70,7 @@ public:
   bool detectDPS310(void);
   bool detectFXAS21002(void);
   bool detectFXOS8700(void);
+  bool detectHMC5883L(void);
   bool detectHTS221(void);
   bool detectICM20649(void);
   bool detectISM330DHCX(void);
@@ -85,7 +87,7 @@ public:
   bool detectMMC5603(void);
   bool detectMPU6050(void);
   bool detectMSA301(void);
-
+  
   static float mapf(float x, float in_min, float in_max, float out_min,
                     float out_max);
   static constexpr double DEGREES_PER_RADIAN =
@@ -103,6 +105,7 @@ private:
   Adafruit_DPS310 *_dps310 = NULL;
   Adafruit_FXAS21002C *_fxas21002 = NULL;
   Adafruit_FXOS8700 *_fxos8700 = NULL;
+  Adafruit_HMC5883_Unified *_hmc5883l = NULL;
   Adafruit_HTS221 *_hts221 = NULL;
   Adafruit_ICM20649 *_icm20649 = NULL;
   Adafruit_ISM330DHCX *_ism330dhcx = NULL;

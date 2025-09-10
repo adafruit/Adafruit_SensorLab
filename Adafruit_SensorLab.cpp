@@ -351,6 +351,36 @@ bool Adafruit_SensorLab::detectICM20649(void) {
   return false;
 }
 
+/*************************************************************************/
+/*!
+ * @brief  Detect if we have a valid HMC5883L sensor attached and sets
+   the default magnetometer sensor if so
+ * @return True if found
+*/
+/**************************************************************************/
+
+bool Adafruit_SensorLab::detectHMC5883L(void) {
+  bool addr1E = scanI2C(0x1E);
+
+  if (!addr1E) {
+    return false; // no I2C device that could possibly work found!
+  }
+
+  _hmc5883l = new Adafruit_HMC5883_Unified(12345);
+
+  if ((addr1E && _hmc5883l->begin())) {
+    // yay found a HMC5883L
+    Serial.println(F("Found a HMC5883L IMU"));
+
+    if (!magnetometer)
+      magnetometer = _hmc5883l;
+    return true;
+  }
+
+  delete _hmc5883l;
+  return false;
+}
+
 /**************************************************************************/
 /*!
     @brief  Detect if we have a valid HTS221 sensor attached and sets
@@ -840,8 +870,8 @@ Adafruit_Sensor *Adafruit_SensorLab::getMagnetometer(void) {
     return magnetometer; // we already did this process
   }
   if (detectLIS3MDL() || detectLIS2MDL() || detectFXOS8700() ||
-      detectLSM9DS1() || detectLSM9DS0() || detectMLX90393() ||
-      detectMMC5603()) {
+      detectHMC5883L() || detectLSM9DS1() || detectLSM9DS0() || 
+      detectMLX90393() || detectMMC5603()) {
     return magnetometer;
   }
   // Nothing detected
