@@ -87,7 +87,6 @@ public:
   bool detectMMC5603(void);
   bool detectMPU6050(void);
   bool detectMSA301(void);
-  
   static float mapf(float x, float in_min, float in_max, float out_min,
                     float out_max);
   static constexpr double DEGREES_PER_RADIAN =
