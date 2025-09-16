@@ -7,6 +7,7 @@ var searchData=
   ['detectdps310',['detectDPS310',['../class_adafruit___sensor_lab.html#a2020e98b45f49d4987ae6f393313123a',1,'Adafruit_SensorLab']]],
   ['detectfxas21002',['detectFXAS21002',['../class_adafruit___sensor_lab.html#aa43fc6f5319c2108d1815c3a1da5cb0a',1,'Adafruit_SensorLab']]],
   ['detectfxos8700',['detectFXOS8700',['../class_adafruit___sensor_lab.html#a963a47bc899b2bcc71a6889929b0a431',1,'Adafruit_SensorLab']]],
+  ['detecthmc5883l',['detectHMC5883L',['../class_adafruit___sensor_lab.html#a994072bb3faacc78dc002f19b58a56dc',1,'Adafruit_SensorLab']]],
   ['detecthts221',['detectHTS221',['../class_adafruit___sensor_lab.html#a62eb99d6ce7382a0b2aa698b92e64a36',1,'Adafruit_SensorLab']]],
   ['detecticm20649',['detectICM20649',['../class_adafruit___sensor_lab.html#aad364291ab1a4629d2e42d15a5c1a5fe',1,'Adafruit_SensorLab']]],
   ['detectism330dhcx',['detectISM330DHCX',['../class_adafruit___sensor_lab.html#afb5e784bbc84cf12ae15e7e0fdc8ef5a',1,'Adafruit_SensorLab']]],
